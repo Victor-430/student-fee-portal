@@ -4,7 +4,11 @@ import { DashboardLayout } from "../layouts/DashboardLayout";
 
 const router = createBrowserRouter([
   { path: "/", Component: Rootlayout, children: [] },
-  { path: "/Dashboard", Component: DashboardLayout, children: [] },
+  { path: "/dashboard", Component: DashboardLayout, children: [
+    {path: "/dashboard/fees"},
+    {path:"/dashboard/receipt"}
+    {path:"/dashboard/transactions"}
+  ] },
 ]);
 
 export default router;
