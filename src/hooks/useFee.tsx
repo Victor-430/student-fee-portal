@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 export const useFee = () => {
   const FeeContext = createContext<number | string | null>(null);
@@ -27,5 +27,10 @@ export const useFee = () => {
     selectedFee,
   };
 
-  return <FeeContext value={{ feeValue }}></FeeContext>;
+  return <FeeContext.Provider value={{ feeValue }}></FeeContext.Provider>;
+
+  const useFee = useContext();
+  if (!FeeContext) {
+    throw new Error("Please use fee context withtin a global provider");
+  }
 };

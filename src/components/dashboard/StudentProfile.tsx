@@ -1,4 +1,7 @@
 import { useNavigate } from "react-router";
+import { Button } from "../ui/button";
+import { Avatar, AvatarImage } from "../ui/avatar";
+import { AvatarFallback } from "@radix-ui/react-avatar";
 
 export const StudentProfile = () => {
   const feeNavigation = useNavigate();
@@ -21,7 +24,10 @@ export const StudentProfile = () => {
         {/* avatar section */}
         <>
           <div className="w-1/3 h-full border-2 border-portal-ash p-4 flex gap-8 rounded-xl">
-            <Avatar className="w-4 h-4 pb-8" />
+            <Avatar className="w-4 h-4 pb-8">
+              <AvatarImage src="" alt="profile_img" />
+              <AvatarFallback>profile image</AvatarFallback>
+            </Avatar>
 
             <div className="space-y-3">
               <h1>Oyeleke Victor</h1>

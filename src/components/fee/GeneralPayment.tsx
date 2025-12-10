@@ -1,4 +1,13 @@
 import { useState } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
 
 export const GeneralPayment = () => {
   // store reach item selected in an array
@@ -43,15 +52,13 @@ export const GeneralPayment = () => {
             <TableHead>S/N</TableHead>
             <TableHead>pAYMENT TYPE</TableHead>
             <TableHead className="text-right">AMOUNT</TableHead>
-              
-            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           <TableRow></TableRow>
         </TableBody>
         <TableFooter>
-          <TableCell colSpan={2} >Total</TableCell>
+          <TableCell colSpan={2}>Total</TableCell>
           <TableCell className="text-right"></TableCell>
         </TableFooter>
       </Table>
