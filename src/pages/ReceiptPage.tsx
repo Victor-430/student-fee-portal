@@ -1,3 +1,9 @@
+import { DownloadReceipt } from "@/components/receipts/DownloadReceipt";
+
 export const Receipt = () => {
-  return <div>Receipt</div>;
+  return (
+    <div>
+      <DownloadReceipt />
+    </div>
+  );
 };
