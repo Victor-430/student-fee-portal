@@ -143,7 +143,7 @@ export const GeneralPayment = () => {
                 <Checkbox />
                 <TableCell>{fee.type}</TableCell>
               </div>
-              <TableCell>&Naira;{fee.amount}</TableCell>
+              <TableCell>{fee.amount}</TableCell>
             </TableRow>
           ))}
         </TableBody>

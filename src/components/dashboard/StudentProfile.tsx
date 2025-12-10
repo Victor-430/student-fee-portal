@@ -1,72 +1,89 @@
-import { useNavigate } from "react-router";
+// import { useNavigate } from "react-router";
 import { Button } from "../ui/button";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { AvatarFallback } from "@radix-ui/react-avatar";
+import { Edit } from "lucide-react";
 
 export const StudentProfile = () => {
-  const feeNavigation = useNavigate();
+  // const feeNavigation = useNavigate();
 
   return (
     // {/* student profile */}
-    <div className="p-8 py-12 border-2 border-portal-ash rounded-lg">
-      <div className="flex justify-between ">
-        <h1 className="justify-self-start">Student Profile</h1>
-        <Button className="bg-blue-600"> View Receipts</Button>
-        <Button
-          className="bg-blue-600 h-4 p-2 rounded-lg"
-          onClick={feeNavigation("/dashboard/fee")}
-        >
-          {" "}
-          Fees Details
-        </Button>
+    <div className="lg:px-8 px-2 pb-8 border-2 border-portal-ash rounded-lg text-xl lg:text-2xl ">
+      <div className="flex lg:flex-row flex-col justify-between items-center py-8 lg:py-10">
+        <h1 className="">Student Profile</h1>
+        <div className="space-x-4 pt-8 sm:pt-0">
+          <Button className="bg-blue-600"> View Receipts</Button>
+          <Button className="bg-blue-600  rounded-lg">Fees Details</Button>
+        </div>
       </div>
-      <div>
-        {/* avatar section */}
-        <>
-          <div className="w-1/3 h-full border-2 border-portal-ash p-4 flex gap-8 rounded-xl">
-            <Avatar className="w-4 h-4 pb-8">
+      <div className="">
+        <div className="flex gap-4 lg:flex-row flex-col">
+          {/* avatar section */}
+          <div className="  border-2 border-portal-ash p-4 flex flex-col gap-8 rounded-lg ">
+            <Avatar className="w-24 h-24 roundded-full bg-portal-darkYellow">
               <AvatarImage src="" alt="profile_img" />
               <AvatarFallback>profile image</AvatarFallback>
             </Avatar>
 
             <div className="space-y-3">
               <h1>Oyeleke Victor</h1>
-              <p className="h-4 p-2 bg-portal-green rounded-lg">
+              <p className=" p-2 bg-portal-green rounded-sm w-fit uppercase">
                 Admission no: flex113
               </p>
-              <p>Email:victoroyeleke333@gmail.com</p>
-              <p className="bg-portal-darkYellow h-4 p-2 rounded-lg">
+              <p className="">Email:victoroyeleke333@gmail.com</p>
+              <p className="bg-portal-darkYellow  p-2 rounded-sm w-fit">
                 Gender: MALE
               </p>
+              <p className="text-portal-ash">Course: Frontend development</p>
+              <p className="text-portal-ash">Batch: 2025</p>
             </div>
-            <p className="text-portal-ash">Course: Frontend development</p>
-            <p className="text-portal-ash">Batch: 2025</p>
           </div>
-        </>
-        {/* student info section */}
-        <>
-          <div className="w-2/3 h-full rounded-xl border-portal-ash border-2">
-            <div className="flex border-b-2 border-portal-ash ">
-              <h1 className="capitalize justify-items-start">Profile</h1>
-              <p className="justify-items-end">Edit Details</p>
 
-              <div className="bg-portal-ash p-2 &:not(:nth-last-child(-n+1))-border-b-2 ">
+          {/* student info section */}
+          <div className="w-full rounded-lg border-portal-ash border-2">
+            <div className="">
+              <div className="flex p-4 border-b-2 border-portal-ash  justify-between">
+                <h1 className="uppercase ">Profile</h1>
+                <p className="flex gap-4 items-center text-portal-ash">
+                  <Edit className="" />
+                  Edit Details
+                </p>
+              </div>
+
+              <div className="bg-portal-ash p-4 m-2 space-y-6 ">
                 <div className="flex justify-between">
-                  <h3 className="bg-portal-ash border-b-2">Admission Date</h3>{" "}
+                  <h3 className="">Admission Date</h3> <span>01-09-2025</span>
+                </div>
+                <div className="flex justify-between">
+                  <h3>Date of Birth</h3>
                   <span>01-09-2025</span>
                 </div>
-                <h3>Date of Birth</h3>
-                <h3>Category</h3>
-                <h3>Mobile number</h3> <span>23487484403</span>
-                <h3>Religion</h3>
-                <div className="flex justify-between"></div>
-                <h3>Email </h3>{" "}
-                <span className="bg-portal-darkYellow h-4 p-2">N/A</span>
-                <h3>Locality</h3>
+                <div className="flex justify-between">
+                  <h3>Category</h3>
+                  <p>December</p>
+                </div>
+                <div className="flex justify-between">
+                  <h3>Mobile number</h3>
+                  <span>23487484403</span>
+                </div>
+                <div className="flex justify-between">
+                  <h3>Religion</h3>
+                </div>
+                <div className="flex justify-between items-center">
+                  <h3>Email </h3>{" "}
+                  <span className="bg-portal-darkYellow  p-1 rounded-sm">
+                    N/A
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <h3>Locality</h3>
+                  <span className="bg-portal-green  p-1 rounded-sm">N/A</span>
+                </div>
               </div>
             </div>
           </div>
-        </>
+        </div>
       </div>
     </div>
   );

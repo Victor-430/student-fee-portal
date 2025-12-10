@@ -7,10 +7,10 @@ import { PaymentSummary } from "@/components/fee/PaymentSummary";
 import { PaymentForm } from "@/components/fee/PaymentForm";
 import { TransactionHistory } from "@/components/transactions/TransactionHistory";
 import { NotFound } from "@/pages/NotFound";
-import { ErrorBoundary } from "@/pages/ErrorBoundary";
+// import { ErrorBoundary } from "@/pages/ErrorBoundary";
 
 const router = createBrowserRouter([
-  { path: "/", Component: Rootlayout, ErrorBoundary: ErrorBoundary },
+  { path: "/", Component: Rootlayout },
   {
     path: "/dashboard",
     Component: DashboardLayout,
