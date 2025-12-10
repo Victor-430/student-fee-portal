@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type MouseEventHandler } from "react";
 import {
   Table,
   TableBody,
@@ -9,10 +9,13 @@ import {
   TableRow,
 } from "../ui/table";
 import { Checkbox } from "../ui/checkbox";
+import { Button } from "../ui/button";
+import { useNavigate } from "react-router";
 
 export const GeneralPayment = () => {
   // store reach item selected in an array
-  const [selectedFee, setSelectedFee] = useState();
+  const [selectedFee, setSelectedFee] = useState<[]>();
+  const paymentNavigation = useNavigate();
 
   interface FEEDATA {
     type: string;
@@ -83,7 +86,13 @@ export const GeneralPayment = () => {
     },
   ];
 
-  const feeSelection = 
+  const feeSelection = (selection: FEEDATA) => {
+    setSelectedFee((prev) => [...selection]);
+  };
+
+  const continuePayment = () => {
+    paymentNavigation("/dashboard/fees/summary");
+  };
 
   return (
     <div className="p-6">
@@ -128,11 +137,11 @@ export const GeneralPayment = () => {
         </TableHeader>
         <TableBody>
           {feeData.map((fee) => (
-            <TableRow key={fee.type}>
+            <TableRow key={fee.type} onClick={feeSelection(fee)}>
               <TableCell className="text-left">{fee.no}</TableCell>
               <div className="flex gap-8">
                 <Checkbox />
-                <TableCell onClick={} >{fee.type}</TableCell>
+                <TableCell>{fee.type}</TableCell>
               </div>
               <TableCell>&Naira;{fee.amount}</TableCell>
             </TableRow>
@@ -143,6 +152,10 @@ export const GeneralPayment = () => {
           <TableCell className="text-right"></TableCell>
         </TableFooter>
       </Table>
+
+      <Button className="bg-portal-green" onClick={continuePayment}>
+        Continue
+      </Button>
     </div>
   );
 };
