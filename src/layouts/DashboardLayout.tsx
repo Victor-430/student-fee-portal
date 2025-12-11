@@ -1,4 +1,3 @@
-import { Outlet } from "react-router";
 import Navbar from "@/components/layout/Navbar";
 import { Sidebar } from "../components/layout/Sidebar";
 import { Notifications } from "@/components/dashboard/Notifications";
@@ -19,7 +18,6 @@ export const DashboardLayout = () => {
           </div>
         </div>
       </div>
-      <Outlet />
     </div>
   );
 };

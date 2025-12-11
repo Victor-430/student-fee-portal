@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { Button } from "../ui/button";
 import { ChevronLeft } from "lucide-react";
 import {
@@ -10,34 +10,32 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
+import { useFee } from "@/hooks/useFee";
+import { toast } from "sonner";
 
 export const PaymentSummary = () => {
-  const location = useLocation();
+  const { selectedFee } = useFee();
   const navigate = useNavigate();
-
-  const selectedFee = (location.state as FEEDATA[]) || [];
 
   const totalAmount = selectedFee.reduce((sum, fee) => sum + fee.amount, 0);
 
   const handleBackNavigation = () => {
-    navigate(-1);
+    navigate("/fees");
   };
 
   const handlePaymentNavigation = () => {
-    navigate("/fees/payment", {
-      state: { fee: selectedFee, total: totalAmount },
-    });
+    if (selectedFee.length === 0) {
+      toast.error("No fee selected");
+      navigate("/fees");
+      return;
+    }
+
+    navigate("/fees/payment");
   };
 
   return (
     <div>
       <div>
-        <Button
-          className="bg-blue-600 flex cursor-pointer justify-end p-2 text-lg"
-          onClick={handleBackNavigation}
-        >
-          <ChevronLeft /> Back
-        </Button>
         <div className=" uppercase text-center font-bold text-xl lg:text-3xl my-4">
           Payment Summary
         </div>
@@ -47,7 +45,7 @@ export const PaymentSummary = () => {
       {/* summary table */}
       {selectedFee.length === 0 ? (
         <div className="text-center py-8 text-portal-ash">
-          No fee selected. Pleasse go back and select fees to pay.
+          Go back to selection
         </div>
       ) : (
         <Table>
@@ -71,7 +69,7 @@ export const PaymentSummary = () => {
           </TableBody>
           <TableFooter>
             <TableRow>
-              <TableCell colSpan={2} className="font-bold text-lg">
+              <TableCell colSpan={3} className="font-bold text-lg">
                 Total Amount
               </TableCell>
               <TableCell className="text-right font-bold text-lg">
@@ -81,8 +79,23 @@ export const PaymentSummary = () => {
           </TableFooter>
         </Table>
       )}
+
+      {/* Info Box */}
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+        <h3 className="font-semibold text-blue-900 mb-2">
+          Payment Information
+        </h3>
+        <ul className="text-sm text-blue-800 space-y-1">
+          <li>• You will be redirected to a secure payment gateway</li>
+          <li>• Payment confirmation will be sent to your email</li>
+          <li>• Receipt can be downloaded after successful payment</li>
+        </ul>
+      </div>
+
       <div className="flex gap-4 mt-8">
-        <Button className="bg-portal-ash flex-1">Modify Selection</Button>
+        <Button className="bg-portal-ash flex-1" onClick={handleBackNavigation}>
+          Modify Selection
+        </Button>
         <Button
           className="bg-portal-green flex-1"
           onClick={handlePaymentNavigation}

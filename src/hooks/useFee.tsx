@@ -41,4 +41,5 @@ export const useFee = () => {
   if (!context) {
     throw new Error("useFee must be used withtin a Feeprovider");
   }
+  return context;
 };

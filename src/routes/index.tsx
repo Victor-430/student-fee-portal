@@ -7,6 +7,7 @@ import { PaymentSummary } from "@/components/fee/PaymentSummary";
 import { PaymentForm } from "@/components/fee/PaymentForm";
 import { TransactionHistory } from "@/components/transactions/TransactionHistory";
 import { NotFound } from "@/pages/NotFound";
+import { FeeLayout } from "@/layouts/FeeLayout";
 // import { ErrorBoundary } from "@/pages/ErrorBoundary";
 
 const router = createBrowserRouter([
@@ -17,10 +18,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/fees",
-    Component: FeePage,
+    Component: FeeLayout,
     children: [
+      { index: true, Component: FeePage },
       { path: "summary", Component: PaymentSummary },
-      { path: "form", Component: PaymentForm },
+      { path: "payment", Component: PaymentForm },
     ],
   },
   { path: "receipt", Component: DownloadReceipt },

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -10,9 +10,7 @@ import {
 } from "../ui/table";
 import { Checkbox } from "../ui/checkbox";
 
-export const SchoolFeeTable = ({
-  setSelectedFee,
-}: React.Dispatch<React.SetStateAction<FEEDATA[]>>) => {
+export const SchoolFeeTable = ({ setSelectedFee }: SCHOOLFEETABLEPROP) => {
   const [checkedItems, setCheckedItems] = useState<number[]>([]);
 
   const feeData: FEEDATA[] = [
@@ -81,20 +79,20 @@ export const SchoolFeeTable = ({
   const handleCheckedItems = (fee: FEEDATA, isChecked: boolean) => {
     if (isChecked) {
       setCheckedItems((prev: number[]) => [...prev, fee.no]);
-      setSelectedFee((prev: []) => [...prev, fee]);
+      setSelectedFee((prev: FEEDATA[]) => [...prev, fee]);
     } else {
       setCheckedItems((prev: number[]) =>
         prev.filter((num: number) => num !== fee.no)
       );
-      setSelectedFee((prev: []) => prev.filter((item) => item !== fee.no));
+      setSelectedFee((prev: FEEDATA[]) =>
+        prev.filter((item) => item.no !== fee.no)
+      );
     }
   };
 
-  const totalAmount = () => {
-    feeData
-      .filter((fee) => checkedItems.includes(fee.no))
-      .reduce((sum, fee) => sum + fee.amount, 0);
-  };
+  const totalAmount = feeData
+    .filter((fee) => checkedItems.includes(fee.no))
+    .reduce((sum, fee) => sum + fee.amount, 0);
 
   return (
     <Table>

@@ -12,3 +12,7 @@ interface FEECONTEXT {
   setPaymentStatus: (status: PAYMENTSTATUS | string) => void;
   paymentStatus: PAYMENTSTATUS | string;
 }
+
+interface SCHOOLFEETABLEPROP {
+  setSelectedFee: React.Dispatch<React.SetStateAction<FEEDATA[]>>;
+}
