@@ -13,6 +13,7 @@ export const FeeProvider = ({ children }: { children: ReactNode }) => {
 
   // amount paid is based on the selection state
   const [amountPaid, setAmountPaid] = useState<number>(0);
+  const [clearAmountPaid, setClearAmountPaid] = useState<number>(0);
 
   // selection state is based on the box selected
   const [selectedFee, setSelectedFee] = useState<FEEDATA[]>([]);
@@ -28,6 +29,8 @@ export const FeeProvider = ({ children }: { children: ReactNode }) => {
     setFeeBalance,
     setPaymentStatus,
     setTotalFee,
+    clearAmountPaid,
+    setClearAmountPaid,
   };
 
   return <FeeContext.Provider value={feeValue}>{children}</FeeContext.Provider>;
