@@ -1,4 +1,4 @@
-import { Checkbox } from "../ui/checkbox";
+import React, { useState } from "react";
 import {
   Table,
   TableBody,
@@ -8,8 +8,13 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
+import { Checkbox } from "../ui/checkbox";
 
-export const SchoolFeeTable = (setSelectedFee) => {
+export const SchoolFeeTable = ({
+  setSelectedFee,
+}: React.Dispatch<React.SetStateAction<FEEDATA[]>>) => {
+  const [checkedItems, setCheckedItems] = useState<number[]>([]);
+
   const feeData: FEEDATA[] = [
     {
       type: "School charges",
@@ -73,8 +78,22 @@ export const SchoolFeeTable = (setSelectedFee) => {
     },
   ];
 
-  const feeSelection = (selection: FEEDATA) => {
-    setSelectedFee((prev) => [...prev, selection]);
+  const handleCheckedItems = (fee: FEEDATA, isChecked: boolean) => {
+    if (isChecked) {
+      setCheckedItems((prev: number[]) => [...prev, fee.no]);
+      setSelectedFee((prev: []) => [...prev, fee]);
+    } else {
+      setCheckedItems((prev: number[]) =>
+        prev.filter((num: number) => num !== fee.no)
+      );
+      setSelectedFee((prev: []) => prev.filter((item) => item !== fee.no));
+    }
+  };
+
+  const totalAmount = () => {
+    feeData
+      .filter((fee) => checkedItems.includes(fee.no))
+      .reduce((sum, fee) => sum + fee.amount, 0);
   };
 
   return (
@@ -91,16 +110,23 @@ export const SchoolFeeTable = (setSelectedFee) => {
           <TableRow key={fee.type}>
             <TableCell className="text-left">{fee.no}</TableCell>
             <div className="flex gap-8 items-center">
-              <Checkbox />
+              <Checkbox
+                checked={checkedItems.includes(fee.no)}
+                onCheckedChange={(checked) =>
+                  handleCheckedItems(fee, checked as boolean)
+                }
+              />
               <TableCell>{fee.type}</TableCell>
             </div>
-            <TableCell>{fee.amount}</TableCell>
+            <TableCell>{fee.amount.toLocaleString()}</TableCell>
           </TableRow>
         ))}
       </TableBody>
       <TableFooter>
         <TableCell colSpan={2}>Total</TableCell>
-        <TableCell className="text-right"></TableCell>
+        <TableCell className="text-right">
+          &#8358;{totalAmount.toLocaleString()}
+        </TableCell>
       </TableFooter>
     </Table>
   );

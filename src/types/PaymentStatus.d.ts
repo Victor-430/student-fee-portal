@@ -1,0 +1,1 @@
+type PAYMENTSTATUS = "Completed" | "Outstanding";
