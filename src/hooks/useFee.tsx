@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 
-export const useFee = () => {
+export const FeeProvider = () => {
   const FeeContext = createContext<number | string | null>(null);
 
   type PAYMENTSTATUS = "Completed" | "Outstanding";
@@ -17,7 +17,7 @@ export const useFee = () => {
   const [amountPaid, setAmountPaid] = useState<number>();
 
   // selection state is based on the box selected
-  const [selectedFee, setSelectedFee] = useState<number>();
+  const [selectedFee, setSelectedFee] = useState<FEEDATA[]>([]);
 
   const feeValue = {
     totalFee,
@@ -25,12 +25,17 @@ export const useFee = () => {
     paymentStatus,
     amountPaid,
     selectedFee,
+    setSelectedFee,
   };
 
-  return <FeeContext.Provider value={{ feeValue }}></FeeContext.Provider>;
-
-  const useFee = useContext();
-  if (!FeeContext) {
-    throw new Error("Please use fee context withtin a global provider");
-  }
+  return (
+    <FeeContext.Provider value={{ feeValue }}>
+    </FeeContext.Provider>
+  );
 };
+
+export const useFee = useContext(FeeContext); 
+if (!FeeContext)
+{
+  throw new Error("Please use fee context withtin a global provider");
+}

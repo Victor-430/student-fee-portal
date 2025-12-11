@@ -14,7 +14,7 @@ export const Sidebar = () => {
   };
 
   return (
-    <div className=" h-screen w-1/3 p-4 lg:p-6 gap-4 bg-portal-darkGray text-white flex flex-col &:not(:nth-last-child(-n+1))-border-b-2">
+    <div className="p-4 lg:p-6 gap-4 bg-portal-darkGray text-white flex flex-col &:not(:nth-last-child(-n+1))-border-b-2">
       <div className="w-full bg-grey-200 " ref={menuRef}></div>
       <div className="flex">
         <h1 className="capitalize text-sm font-bold lg:text-xl">
@@ -25,9 +25,9 @@ export const Sidebar = () => {
       <NavLink to="/dashboard" className={activeNav}>
         Dashboard
       </NavLink>
-      <NavLink to="/dashboard/fees">Fees</NavLink>
-      <NavLink to="/dashboard/transactions">Transactions</NavLink>
-      <NavLink to="/dashboard/receipts">Receipts</NavLink>
+      <NavLink to="/fees">Fees</NavLink>
+      <NavLink to="/transactions">Transactions</NavLink>
+      <NavLink to="/receipts">Receipts</NavLink>
     </div>
   );
 };

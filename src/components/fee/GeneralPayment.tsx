@@ -1,159 +1,73 @@
-import { useState, type MouseEventHandler } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../ui/table";
-import { Checkbox } from "../ui/checkbox";
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router";
+import { ChevronLeft } from "lucide-react";
+import { useFee } from "@/hooks/useFee";
+import { SchoolFeeTable } from "./SchoolFeeTable";
 
 export const GeneralPayment = () => {
-  // store reach item selected in an array
-  const [selectedFee, setSelectedFee] = useState<[]>();
-  const paymentNavigation = useNavigate();
+  const { selectedFee, setSelectedFee } = useFee();
 
-  interface FEEDATA {
-    type: string;
-    amount: number;
-    no: number;
-  }
-
-  const feeData: FEEDATA[] = [
-    {
-      type: "School charges",
-      amount: 150000,
-      no: 1,
-    },
-    {
-      type: "Hostel fee",
-      amount: 50000,
-      no: 2,
-    },
-    {
-      type: "Examination fee",
-      amount: 10000,
-      no: 3,
-    },
-    {
-      type: "Practical",
-      amount: 30000,
-      no: 4,
-    },
-    {
-      type: "PTA",
-      amount: 2000,
-      no: 5,
-    },
-    {
-      type: "Science Lab",
-      amount: 4000,
-      no: 6,
-    },
-    {
-      type: "Sports",
-      amount: 5000,
-      no: 7,
-    },
-    {
-      type: "Interhouse sport",
-      amount: 10000,
-      no: 8,
-    },
-    {
-      type: "Result printing",
-      amount: 5000,
-      no: 9,
-    },
-    {
-      type: "ID card",
-      amount: 5000,
-      no: 10,
-    },
-    {
-      type: "Music",
-      amount: 5000,
-      no: 11,
-    },
-    {
-      type: "Lab Manual",
-      amount: 1000,
-      no: 12,
-    },
-  ];
-
-  const feeSelection = (selection: FEEDATA) => {
-    setSelectedFee((prev) => [...selection]);
-  };
+  const navigation = useNavigate();
 
   const continuePayment = () => {
-    paymentNavigation("/dashboard/fees/summary");
+    navigation("/fees/summary", { state: selectedFee });
+  };
+
+  const handlePrevNavigation = () => {
+    navigation(-1);
   };
 
   return (
-    <div className="p-6">
-      <div className=" uppercase  py-4">General Payment Section</div>
-      <div className="border-portal-ash border-b-2 "></div>
-      <div className=" rounded-lg p-6 bg-portal-lightCyan py-4">
-        Tick the boxes to select fees to be paid.Fees can be paid
-        installmentally or in full
+    <div className="p-4 md:p-6">
+      <div>
+        <Button
+          className="bg-blue-600 flex cursor-pointer justify-end p-2 text-lg"
+          onClick={handlePrevNavigation}
+        >
+          <ChevronLeft /> Back
+        </Button>
+        <div className=" uppercase text-center font-bold text-xl lg:text-3xl my-4">
+          General Payment Section
+        </div>
+      </div>
+      <div className="border-portal-ash border-b-2 my-4 "></div>
+      <div className=" rounded-lg p-6 bg-portal-lightCyan space-y-4 ">
+        <p>
+          Tick the boxes to select fees to be paid.Fees can be paid
+          installmentally or in full
+        </p>
         <div className="rounded-lg p-6 bg-portal-lightRed">
           <strong>
-            NOTE. It is important that you select an amount equal or grater than
-            the compulsory fee
+            NOTE. It is important that you select an amount equal or greater
+            than the compulsory fee
           </strong>
         </div>
       </div>
-      <div className="border-portal-ash border-b-2 "></div>
+      <div className="border-portal-ash border-b-2 my-4"></div>
 
       {/* payment indicator */}
       <div className="flex flex-row">
         <div className="border-portal-darkGray border-b-4"></div>
-        <div className="bg-portal-darkGray w-4 h-4 rounded-full justify-center flex items-center">
+        <div className="bg-portal-darkGray w-4 h-4 rounded-full justify-center flex-col flex items-center">
           1 <span>Payment Type Selection</span>
         </div>
         <div className="border-portal-darkGray border-b-4"></div>
-        <div className="bg-portal-darkGray w-4 h-4 rounded-full justify-center flex items-center">
+        <div className="bg-portal-darkGray w-4 h-4 rounded-full justify-center flex  items-center">
           2 <span>Payment Preview</span>
         </div>
         <div className="border-portal-darkGray border-b-4"></div>
-        <div className="bg-portal-darkGray w-4 h-4 rounded-full justify-center flex items-center">
+        <div className="bg-portal-darkGray w-4 h-4 rounded-full justify-center flex  items-center">
           3 <span>Make Payment</span>
         </div>
       </div>
 
       {/* Fee Table */}
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>S/N</TableHead>
-            <TableHead>PAYMENT TYPE</TableHead>
-            <TableHead className="text-right">AMOUNT</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {feeData.map((fee) => (
-            <TableRow key={fee.type} onClick={feeSelection(fee)}>
-              <TableCell className="text-left">{fee.no}</TableCell>
-              <div className="flex gap-8">
-                <Checkbox />
-                <TableCell>{fee.type}</TableCell>
-              </div>
-              <TableCell>{fee.amount}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-        <TableFooter>
-          <TableCell colSpan={2}>Total</TableCell>
-          <TableCell className="text-right"></TableCell>
-        </TableFooter>
-      </Table>
+      <SchoolFeeTable setSelectedFee={setSelectedFee} />
 
-      <Button className="bg-portal-green" onClick={continuePayment}>
+      <Button
+        className="bg-portal-green w-full p-2 my-8"
+        onClick={continuePayment}
+      >
         Continue
       </Button>
     </div>

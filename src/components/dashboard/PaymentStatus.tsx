@@ -39,13 +39,13 @@ export const PaymentStatus = () => {
 
     // should show payment status for each section whether completed or outstanding
 
-    <Card className=" rounded-lg p-4 py-12 text-white bg-portal-darkGray ">
+    <Card className="lg:w-[90%] rounded-lg  py-12 text-white bg-portal-darkGray ">
       <CardHeader>
         <CardTitle className=" text-center pb-6 text-2xl flex gap-4 justify-center items-center">
           Session 2024/25 <BookOpenCheck />
         </CardTitle>
         <CardContent>
-          <div className=" flex gap-4">
+          <div className=" flex gap-4 justify-center">
             <div className="flex flex-col gap-4">
               <p>Payment Status:</p>
               <p className="font-bold text-2xl">completed</p>

@@ -2,19 +2,24 @@
 import { Button } from "../ui/button";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { AvatarFallback } from "@radix-ui/react-avatar";
-import { Edit } from "lucide-react";
+import { Edit, Receipt, CreditCard } from "lucide-react";
 
 export const StudentProfile = () => {
   // const feeNavigation = useNavigate();
 
   return (
     // {/* student profile */}
-    <div className="lg:px-8 px-2 pb-8 border-2 border-portal-ash rounded-lg text-xl lg:text-2xl ">
+    <div className="lg:px-8 px-2 pb-8 border-2 border-portal-ash rounded-lg text-lg lg:text-xl ">
       <div className="flex lg:flex-row flex-col justify-between items-center py-8 lg:py-10">
         <h1 className="">Student Profile</h1>
-        <div className="space-x-4 pt-8 sm:pt-0">
-          <Button className="bg-blue-600"> View Receipts</Button>
-          <Button className="bg-blue-600  rounded-lg">Fees Details</Button>
+        <div className="space-x-2 flex pt-8 sm:pt-0">
+          <Button className="bg-blue-600 flex gap-2">
+            {" "}
+            View Receipts <Receipt />{" "}
+          </Button>
+          <Button className="bg-blue-600  flex gap-2 rounded-lg">
+            Fees Details <CreditCard />{" "}
+          </Button>
         </div>
       </div>
       <div className="">

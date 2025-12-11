@@ -14,19 +14,17 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     Component: DashboardLayout,
+  },
+  {
+    path: "/fees",
+    Component: FeePage,
     children: [
-      {
-        path: "fees",
-        Component: FeePage,
-        children: [
-          { path: "summary", Component: PaymentSummary },
-          { path: "form", Component: PaymentForm },
-        ],
-      },
-      { path: "receipt", Component: DownloadReceipt },
-      { path: "transactions", Component: TransactionHistory },
+      { path: "summary", Component: PaymentSummary },
+      { path: "form", Component: PaymentForm },
     ],
   },
+  { path: "receipt", Component: DownloadReceipt },
+  { path: "transactions", Component: TransactionHistory },
   { path: "*", Component: NotFound },
 ]);
 

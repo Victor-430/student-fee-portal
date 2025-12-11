@@ -14,13 +14,13 @@ export const Notifications = () => {
   // const notification =
 
   return (
-    <Card className=" rounded-lg p-4 py-12 text-white bg-portal-darkGray ">
+    <Card className="lg:w-[90%] rounded-lg  py-12 text-white bg-portal-darkGray ">
       <CardHeader>
         <CardTitle className=" text-center pb-6 flex justify-center items-center gap-4 text-2xl">
           Notifications <Bell />
         </CardTitle>
         <CardContent>
-          <div className=" flex gap-4">
+          <div className=" flex gap-4 justify-center">
             <div className="flex flex-col gap-4">
               <p>Upcoming</p>
               <p className="font-bold text-2xl">completed</p>
