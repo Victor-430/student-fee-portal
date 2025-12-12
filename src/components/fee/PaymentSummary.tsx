@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 import { Button } from "../ui/button";
-import { ChevronLeft } from "lucide-react";
+
 import {
   Table,
   TableBody,
@@ -61,9 +61,11 @@ export const PaymentSummary = () => {
               <TableRow key={fee.no}>
                 <TableCell className="text-left">{fee.no}</TableCell>
 
-                <TableCell>{index + 1}</TableCell>
+                {/* <TableCell>{index + 1}</TableCell> */}
                 <TableCell>{fee.type}</TableCell>
-                <TableCell>{fee.amount.toLocaleString()}</TableCell>
+                <TableCell className="text-right">
+                  {fee.amount.toLocaleString()}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -81,18 +83,17 @@ export const PaymentSummary = () => {
       )}
 
       {/* Info Box */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+      <div className="bg-portal-lightCyan mt-12 border border-blue-200 rounded-lg p-4 mb-6">
         <h3 className="font-semibold text-blue-900 mb-2">
           Payment Information
         </h3>
         <ul className="text-sm text-blue-800 space-y-1">
           <li>• You will be redirected to a secure payment gateway</li>
-          <li>• Payment confirmation will be sent to your email</li>
           <li>• Receipt can be downloaded after successful payment</li>
         </ul>
       </div>
 
-      <div className="flex gap-4 mt-8">
+      <div className="flex gap-4 my-8 ">
         <Button className="bg-portal-ash flex-1" onClick={handleBackNavigation}>
           Modify Selection
         </Button>

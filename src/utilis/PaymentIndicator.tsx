@@ -34,7 +34,7 @@ export const PaymentIndicator = () => {
         {/* Step 2 */}
         <ProgressStep
           stepNumber={2}
-          label="Payment Preview"
+          label="Payment Summary"
           isActive={currentStep === 2}
           isCompleted={currentStep > 2}
         />

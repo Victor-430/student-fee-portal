@@ -5,7 +5,7 @@ import { SchoolFeeTable } from "./SchoolFeeTable";
 import { toast } from "sonner";
 
 export const GeneralPayment = () => {
-  const { selectedFee, setSelectedFee } = useFee();
+  const { selectedFee } = useFee();
 
   const navigation = useNavigate();
 
@@ -38,7 +38,7 @@ export const GeneralPayment = () => {
       <div className="border-portal-ash border-b-2 my-4"></div>
 
       {/* Fee Table */}
-      <SchoolFeeTable setSelectedFee={setSelectedFee} />
+      <SchoolFeeTable />
 
       <Button
         className="bg-portal-green w-full p-2 my-8"

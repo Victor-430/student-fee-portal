@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -9,9 +8,18 @@ import {
   TableRow,
 } from "../ui/table";
 import { Checkbox } from "../ui/checkbox";
+import { useFee } from "@/hooks/useFee";
 
-export const SchoolFeeTable = ({ setSelectedFee }: SCHOOLFEETABLEPROP) => {
-  const [checkedItems, setCheckedItems] = useState<number[]>([]);
+export const SchoolFeeTable = () => {
+  const {
+    selectedFee,
+    setSelectedFee,
+    setTotalFee,
+    setAmountPaid,
+    amountPaid,
+    totalFee,
+    setFeeBalance,
+  } = useFee();
 
   const feeData: FEEDATA[] = [
     {
@@ -76,31 +84,48 @@ export const SchoolFeeTable = ({ setSelectedFee }: SCHOOLFEETABLEPROP) => {
     },
   ];
 
+  const isItemChecked = (feeNo: number) => {
+    return selectedFee.some((fee) => fee.no === feeNo);
+  };
+
   const handleCheckedItems = (fee: FEEDATA, isChecked: boolean) => {
     if (isChecked) {
-      setCheckedItems((prev: number[]) => [...prev, fee.no]);
-      setSelectedFee((prev: FEEDATA[]) => [...prev, fee]);
+      setSelectedFee((prev: FEEDATA[]) => {
+        if (prev.some((f) => f.no === fee.no)) return prev;
+        return [...prev, fee];
+      });
     } else {
-      setCheckedItems((prev: number[]) =>
-        prev.filter((num: number) => num !== fee.no)
-      );
       setSelectedFee((prev: FEEDATA[]) =>
         prev.filter((item) => item.no !== fee.no)
       );
     }
   };
 
-  const totalAmount = feeData
-    .filter((fee) => checkedItems.includes(fee.no))
-    .reduce((sum, fee) => sum + fee.amount, 0);
+  const handleTotalFee = () => {
+    const totalFee = feeData.reduce((sum, fee) => sum + fee.amount, 0);
+    setTotalFee(totalFee);
+  };
+
+  const handleAmountPaid = () => {
+    const totalAmount = selectedFee.reduce((sum, fee) => sum + fee.amount, 0);
+
+    setAmountPaid(totalAmount);
+  };
+
+  const handleFeeBalance = () => {
+    const feeBalance = totalFee - amountPaid;
+    setFeeBalance(feeBalance);
+  };
+
+  const totalAmount = selectedFee.reduce((sum, fee) => sum + fee.amount, 0);
 
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>S/N</TableHead>
+          <TableHead>S/N </TableHead>
           <TableHead>PAYMENT TYPE</TableHead>
-          <TableHead className="text-right">AMOUNT</TableHead>
+          <TableHead className="text-right">AMOUNT {feeBalance}</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -109,14 +134,16 @@ export const SchoolFeeTable = ({ setSelectedFee }: SCHOOLFEETABLEPROP) => {
             <TableCell className="text-left">{fee.no}</TableCell>
             <div className="flex gap-8 items-center">
               <Checkbox
-                checked={checkedItems.includes(fee.no)}
+                checked={isItemChecked(fee.no)}
                 onCheckedChange={(checked) =>
                   handleCheckedItems(fee, checked as boolean)
                 }
               />
               <TableCell>{fee.type}</TableCell>
             </div>
-            <TableCell>{fee.amount.toLocaleString()}</TableCell>
+            <TableCell className="text-right">
+              {fee.amount.toLocaleString()}
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>
