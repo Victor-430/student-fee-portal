@@ -7,7 +7,7 @@ export const Sidebar = () => {
   const menuRef = useRef();
 
   const activeNav = ({ isActive }) =>
-    isActive ? "bg-portal-green p-2 lg:p-4" : "";
+    isActive ? "bg-portal-green p-2 lg:p-3" : "";
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -25,9 +25,15 @@ export const Sidebar = () => {
       <NavLink to="/dashboard" className={activeNav}>
         Dashboard
       </NavLink>
-      <NavLink to="/fees">Fees</NavLink>
-      <NavLink to="/transactions">Transactions</NavLink>
-      <NavLink to="/receipts">Receipts</NavLink>
+      <NavLink to="/fees" className={activeNav}>
+        Fees
+      </NavLink>
+      <NavLink to="/transactions" className={activeNav}>
+        Transactions
+      </NavLink>
+      <NavLink to="/receipts" className={activeNav}>
+        Receipts
+      </NavLink>
     </div>
   );
 };

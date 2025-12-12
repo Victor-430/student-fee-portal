@@ -125,7 +125,7 @@ export const SchoolFeeTable = () => {
         <TableRow>
           <TableHead>S/N </TableHead>
           <TableHead>PAYMENT TYPE</TableHead>
-          <TableHead className="text-right">AMOUNT {feeBalance}</TableHead>
+          <TableHead className="text-right">AMOUNT</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
