@@ -8,4 +8,5 @@ interface TRANSACTION {
   studentName: string;
   studentId: string;
   session: string;
+  referenceNumber: string;
 }

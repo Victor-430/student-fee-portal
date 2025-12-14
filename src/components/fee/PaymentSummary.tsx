@@ -57,7 +57,7 @@ export const PaymentSummary = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {selectedFee.map((fee, index) => (
+            {selectedFee.map((fee) => (
               <TableRow key={fee.no}>
                 <TableCell className="text-left">{fee.no}</TableCell>
 

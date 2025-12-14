@@ -1,3 +1,5 @@
-export const Transaction = () => {
-  return <div>Transaction</div>;
+import { TransactionHistory } from "@/components/transactions/TransactionHistory";
+
+export const TransactionPage = () => {
+  return <TransactionHistory />;
 };

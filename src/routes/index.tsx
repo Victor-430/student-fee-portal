@@ -4,9 +4,9 @@ import { FeePage } from "@/pages/FeePage";
 import { DownloadReceipt } from "@/components/receipts/DownloadReceipt";
 import { PaymentSummary } from "@/components/fee/PaymentSummary";
 import { PaymentForm } from "@/components/fee/PaymentForm";
-import { TransactionHistory } from "@/components/transactions/TransactionHistory";
 import { NotFound } from "@/pages/NotFound";
 import { FeeLayout } from "@/layouts/FeeLayout";
+import { TransactionPage } from "@/pages/TransactionPage";
 // import { ErrorBoundary } from "@/pages/ErrorBoundary";
 
 const router = createBrowserRouter([
@@ -24,7 +24,7 @@ const router = createBrowserRouter([
     ],
   },
   { path: "receipt", Component: DownloadReceipt },
-  { path: "transactions", Component: TransactionHistory },
+  { path: "transactions", Component: TransactionPage },
   { path: "*", Component: NotFound },
 ]);
 
