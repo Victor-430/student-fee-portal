@@ -39,7 +39,7 @@ export const FeeProvider = ({ children }: { children: ReactNode }) => {
 export const useFee = () => {
   const context = useContext(FeeContext);
   if (!context) {
-    throw new Error("useFee must be used withtin a Feeprovider");
+    throw new Error("useFee must be used within a Feeprovider");
   }
   return context;
 };

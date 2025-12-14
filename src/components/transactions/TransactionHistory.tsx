@@ -16,9 +16,9 @@ import {
   Search, 
   Filter,
   Eye,
-  Trash2 
+
 } from "lucide-react";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 import { TransactionStorage } from "@/utils/TransactionStorage";
 import { 
   formatDate, 
@@ -26,8 +26,10 @@ import {
   getStatusColor,
   getStatusIcon 
 } from "@/utils/TransactionHelpers";
+import { useFee } from "@/hooks/useFee";
 
 export const TransactionHistory = () => {
+  const {setAmountPaid} = useFee();
   const navigate = useNavigate();
   const [transactions, setTransactions] = useState<TRANSACTION[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -40,16 +42,13 @@ export const TransactionHistory = () => {
     setTransactions(allTransactions);
   }, []);
 
-  // Derive filtered transactions using useMemo (no separate state needed!)
   const filteredTransactions = useMemo(() => {
     let filtered = [...transactions];
 
-    // Filter by status
     if (statusFilter !== "All") {
       filtered = filtered.filter(t => t.status === statusFilter);
     }
 
-    // Filter by search query (reference number or student name)
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(t => 
@@ -62,48 +61,51 @@ export const TransactionHistory = () => {
     return filtered;
   }, [transactions, searchQuery, statusFilter]);
 
-  const loadTransactions = () => {
-    const allTransactions = TransactionStorage.getAll();
-    setTransactions(allTransactions);
-  };
+  // const loadTransactions = () => {
+  //   const allTransactions = TransactionStorage.getAll();
+  //   setTransactions(allTransactions);
+  // };
 
-  const handleDelete = (id: string) => {
-    toast.warning("Delete Transaction", {
-      description: "Are you sure you want to delete this transaction? This action cannot be undone.",
-      action: {
-        label: "Delete",
-        onClick: () => {
-          TransactionStorage.delete(id);
-          loadTransactions();
-          toast.success("Transaction deleted successfully");
-        },
-      },
-      cancel: {
-        label: "Cancel",
-        onClick: () => {},
-      },
-    });
-  };
+  // const handleDelete = (id: string) => {
+  //   toast.warning("Delete Transaction", {
+  //     description: "Are you sure you want to delete this transaction? This action cannot be undone.",
+  //     action: {
+  //       label: "Delete",
+  //       onClick: () => {
+  //         TransactionStorage.delete(id);
+  //         loadTransactions();
+  //         toast.success("Transaction deleted successfully");
+  //       },
+  //     },
+  //     cancel: {
+  //       label: "Cancel",
+  //       onClick: () => {},
+  //     },
+  //   });
+  // };
 
   const handleViewDetails = (transaction: TRANSACTION) => {
     setSelectedTransaction(transaction);
   };
 
   const handleDownloadReceipt = (transaction: TRANSACTION) => {
-    // Navigate to receipt page with transaction data
     navigate("/receipt", { state: transaction });
   };
 
   const getTotalPaid = () => {
-    return filteredTransactions
+    const amountPaid =  filteredTransactions
       .filter(t => t.status === "Completed")
       .reduce((sum, t) => sum + t.totalAmount, 0);
+      // setAmountPaid(amountPaid)
+      return amountPaid;
+
   };
+
+
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="mb-6">
           <Button
             className="bg-blue-600 hover:bg-blue-700 flex items-center gap-2 mb-4"
@@ -115,7 +117,6 @@ export const TransactionHistory = () => {
           <p className="text-gray-600 mt-2">View and manage your payment transactions</p>
         </div>
 
-        {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div className="bg-white rounded-lg shadow-sm p-6 border-l-4 border-blue-600">
             <p className="text-sm text-gray-600 mb-1">Total Transactions</p>
@@ -133,10 +134,8 @@ export const TransactionHistory = () => {
           </div>
         </div>
 
-        {/* Filters */}
         <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
           <div className="flex flex-col md:flex-row gap-4">
-            {/* Search */}
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
               <Input
@@ -148,7 +147,6 @@ export const TransactionHistory = () => {
               />
             </div>
 
-            {/* Status Filter */}
             <div className="flex items-center gap-2">
               <Filter size={20} className="text-gray-400" />
               <select
@@ -165,7 +163,6 @@ export const TransactionHistory = () => {
           </div>
         </div>
 
-        {/* Transactions Table */}
         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
           {filteredTransactions.length === 0 ? (
             <div className="text-center py-12">
@@ -188,7 +185,6 @@ export const TransactionHistory = () => {
                   <TableRow className="bg-gray-50">
                     <TableHead className="font-semibold">Date</TableHead>
                     <TableHead className="font-semibold">Reference</TableHead>
-                    <TableHead className="font-semibold">Items</TableHead>
                     <TableHead className="font-semibold">Amount</TableHead>
                     <TableHead className="font-semibold">Status</TableHead>
                     <TableHead className="font-semibold text-center">Actions</TableHead>
@@ -203,9 +199,7 @@ export const TransactionHistory = () => {
                       <TableCell className="text-sm font-mono">
                         {transaction.referenceNumber}
                       </TableCell>
-                      <TableCell className="text-sm">
-                        {transaction.fees.length} item(s)
-                      </TableCell>
+                     
                       <TableCell className="text-sm font-semibold">
                         {formatCurrency(transaction.totalAmount)}
                       </TableCell>
@@ -249,7 +243,6 @@ export const TransactionHistory = () => {
           )}
         </div>
 
-        {/* Transaction Detail Modal */}
         {selectedTransaction && (
           <TransactionDetailModal
             transaction={selectedTransaction}
@@ -328,7 +321,7 @@ const TransactionDetailModal = ({
               <table className="w-full">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="text-left p-3 text-sm font-semibold">Item</th>
+                    <th className="text-left p-3 text-sm font-semibold">Payment Type</th>
                     <th className="text-right p-3 text-sm font-semibold">Amount</th>
                   </tr>
                 </thead>

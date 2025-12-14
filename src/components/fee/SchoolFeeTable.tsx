@@ -117,6 +117,8 @@ export const SchoolFeeTable = () => {
     setFeeBalance(feeBalance);
   };
 
+  
+
   const totalAmount = selectedFee.reduce((sum, fee) => sum + fee.amount, 0);
 
   return (
