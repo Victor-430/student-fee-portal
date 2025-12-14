@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router";
-import { Rootlayout } from "../layouts/Rootlayout";
 import { DashboardLayout } from "../layouts/DashboardLayout";
 import { FeePage } from "@/pages/FeePage";
 import { DownloadReceipt } from "@/components/receipts/DownloadReceipt";
@@ -11,9 +10,8 @@ import { FeeLayout } from "@/layouts/FeeLayout";
 // import { ErrorBoundary } from "@/pages/ErrorBoundary";
 
 const router = createBrowserRouter([
-  { path: "/", Component: Rootlayout },
   {
-    path: "/dashboard",
+    path: "/",
     Component: DashboardLayout,
   },
   {

@@ -6,17 +6,19 @@ import { ProfileCard } from "@/components/dashboard/ProfileCard";
 
 export const DashboardLayout = () => {
   return (
-    <div className="overflow-x-hidden h-screen ">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
-      <div className="flex flex-1 flex-wrap ">
+      <div className="flex flex-1 flex-col lg:flex-row">
         <Sidebar />
-        <div className="flex-1 flex-col flex px-4 gap-y-4 flex-wrap w-2/3 ">
-          <ProfileCard />
-          <div className="grid grid-cols-1 lg:grid-cols-2">
-            <PaymentStatus />
-            <Notifications />
+        <main className="flex-1 p-4 md:p-6 lg:p-8">
+          <div className="max-w-7xl mx-auto space-y-6">
+            <ProfileCard />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+              <PaymentStatus />
+              <Notifications />
+            </div>
           </div>
-        </div>
+        </main>
       </div>
     </div>
   );
