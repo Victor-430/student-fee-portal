@@ -3,7 +3,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 
 export const ProfileCard = () => {
-  type SECTION = "Dashboard" | "Profile";
 
   return (
     <div className="w-full">

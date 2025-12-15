@@ -26,10 +26,8 @@ import {
   getStatusColor,
   getStatusIcon 
 } from "@/utils/TransactionHelpers";
-import { useFee } from "@/hooks/useFee";
 
 export const TransactionHistory = () => {
-  const {setAmountPaid,} = useFee();
   const navigate = useNavigate();
   const [transactions, setTransactions] = useState<TRANSACTION[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -74,7 +72,6 @@ export const TransactionHistory = () => {
     const amountPaid =  filteredTransactions
       .filter(t => t.status === "Completed")
       .reduce((sum, t) => sum + t.totalAmount, 0);
-      // setAmountPaid(amountPaid)
       return amountPaid;
 
   };
