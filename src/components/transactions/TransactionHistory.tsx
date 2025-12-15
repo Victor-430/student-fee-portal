@@ -61,35 +61,13 @@ export const TransactionHistory = () => {
     return filtered;
   }, [transactions, searchQuery, statusFilter]);
 
-  // const loadTransactions = () => {
-  //   const allTransactions = TransactionStorage.getAll();
-  //   setTransactions(allTransactions);
-  // };
-
-  // const handleDelete = (id: string) => {
-  //   toast.warning("Delete Transaction", {
-  //     description: "Are you sure you want to delete this transaction? This action cannot be undone.",
-  //     action: {
-  //       label: "Delete",
-  //       onClick: () => {
-  //         TransactionStorage.delete(id);
-  //         loadTransactions();
-  //         toast.success("Transaction deleted successfully");
-  //       },
-  //     },
-  //     cancel: {
-  //       label: "Cancel",
-  //       onClick: () => {},
-  //     },
-  //   });
-  // };
 
   const handleViewDetails = (transaction: TRANSACTION) => {
     setSelectedTransaction(transaction);
   };
 
   const handleDownloadReceipt = (transaction: TRANSACTION) => {
-    navigate("/receipt", { state: transaction });
+    navigate("/receipts", { state: transaction });
   };
 
   const getTotalPaid = () => {

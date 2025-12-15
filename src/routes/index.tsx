@@ -23,7 +23,7 @@ const router = createBrowserRouter([
       { path: "payment", Component: PaymentForm },
     ],
   },
-  { path: "receipt", Component: DownloadReceipt },
+  { path: "receipts", Component: DownloadReceipt },
   { path: "transactions", Component: TransactionPage },
   { path: "*", Component: NotFound },
 ]);

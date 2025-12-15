@@ -2,8 +2,18 @@ import { Button } from "../ui/button";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { AvatarFallback } from "@radix-ui/react-avatar";
 import { Edit, Receipt,  Wallet } from "lucide-react";
+import { useNavigate } from "react-router";
 
 export const StudentProfile = () => {
+  const navigate = useNavigate()
+
+  const handlereceiptNavaigation = () => {
+    navigate("/receipts")
+  }
+
+  const handleFeeNavigation = () => {
+    navigate("/fees")
+  }
 
   return (
     // {/* student profile */}
@@ -11,11 +21,11 @@ export const StudentProfile = () => {
       <div className="flex lg:flex-row flex-col justify-between items-center py-8 lg:py-10">
         <h1 className="">Student Profile</h1>
         <div className="space-x-2 flex pt-8 sm:pt-0">
-          <Button className="bg-blue-600 flex gap-2">
+          <Button onClick={handlereceiptNavaigation} className="bg-blue-600 flex gap-2">
             {" "}
             View Receipts <Receipt />{" "}
           </Button>
-          <Button className="bg-blue-600  flex gap-2 rounded-lg">
+          <Button onClick={handleFeeNavigation} className="bg-blue-600  flex gap-2 rounded-lg">
             Fees Details <Wallet />{" "}
           </Button>
         </div>

@@ -26,7 +26,7 @@ export const GeneralPayment = () => {
       <div className=" rounded-lg p-6 bg-portal-lightCyan space-y-4 ">
         <p>
           Tick the boxes to select fees to be paid.Fees can be paid
-          installmentally or in full
+          instrumentally or in full
         </p>
         <div className="rounded-lg p-6 bg-portal-lightRed">
           <strong>
