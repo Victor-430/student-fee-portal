@@ -83,7 +83,6 @@ const handleDownloadPDF = async () => {
   }
 };
 
-
   const handlePrint = () => {
     window.print();
   };
