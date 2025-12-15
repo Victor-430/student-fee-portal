@@ -14,7 +14,7 @@ This project provides a centralized interface for students to manage their finan
 | **🚀 Live Project** | [**View Deployment (Vercel)**](https://student-fee-portal.vercel.app/) |
 | **📂 Source Code** | [**GitHub Repository**](https://github.com/Victor-430/student-fee-portal) |
 | **🖼️ Screenshots** | [**Google Drive Folder**](https://drive.google.com/drive/folders/1ArZlct0Q22itP8iSQmTQPrMKigoZF3Lq) |
-| **📊 Presentation** | [**Download PDF Slide**](https://drive.google.com/file/d/1HYwCjKXf7kZW5S20MV68hCc6lvRtiCfc/view?usp=sharing) |
+| **📊 Presentation** | [**PDF Slide**](https://flexisaf.tiiny.site/) |
 | **📄 Docs** | [**Read Documentation**](https://github.com/Victor-430/student-fee-portal/blob/main/README.md) |
 
 
