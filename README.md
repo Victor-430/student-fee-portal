@@ -1,75 +1,87 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+#  Student Fee Dashboard
 
-Currently, two official plugins are available:
+> **Project Goal:** To design a modern fee dashboard that displays fee summaries and allows invoice downloads.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📖 Overview
 
-## React Compiler
+This project provides a centralized interface for students to manage their financial obligations to their institution. It focuses on clarity and accessibility, ensuring students can quickly see what they owe, pay bills via a mock gateway, and keep records of their transactions.
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+  * **Target Audience:** Students needing to track payments and avoid missed deadlines.
 
-Note: This will impact Vite dev & build performances.
+## 🔗 Quick Links (Deliverables)
 
-## Expanding the ESLint configuration
+| **🚀 Live Project** | [**View Deployment (Vercel)**](https://student-fee-portal.vercel.app/) |
+| **📂 Source Code** | [**GitHub Repository**](https://github.com/Victor-430/student-fee-portal) |
+| **🖼️ Screenshots** | [**Google Drive Folder**](https://drive.google.com/drive/folders/1ArZlct0Q22itP8iSQmTQPrMKigoZF3Lq) |
+| **📊 Presentation** | [**Download PDF Slide**](https://drive.google.com/file/d/1HYwCjKXf7kZW5S20MV68hCc6lvRtiCfc/view?usp=sharing) |
+| **📄 Docs** | [**Read Documentation**](https://github.com/Victor-430/student-fee-portal/blob/main/README.md) |
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## ✨ Key Features
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### 💻 Interface & Functionality
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+  * **Payment Summary:** Real-time view of total fees, paid amounts, and outstanding balances.
+  * **Mock Payment Form:** Simulates credit card entry to test the payment flow.
+  * **Transaction History:** Logs past payments using **LocalStorage** (persists after refresh).
+  * **PDF Receipts:** Integrated receipt generation for instant invoice downloads.
+  * **Smart Alerts:** Visual highlighting for unpaid items and overdue warnings.
+  * **Responsive Design:** Optimized data tables and card layouts for mobile and desktop.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🛠️ Tech Stack
+
+  * **Frontend Framework:** React.js (Hooks for state management)
+  * **Styling:** CSS3 / Styled-components
+  * **Logic:** JavaScript (ES6+)
+  * **Persistence:** Browser LocalStorage API
+  * **Libraries:** `html2pdf.js` (PDF Generation)
+
+
+## 🎨 Design System
+
+The dashboard utilizes a specific color palette to ensure visual hierarchy and clarity.
+
+| Color Role | Hex Code | Visual |
+
+| **Background** | `#1b3c53` | 🔵 Dark Blue |
+| **Primary** | `#abe0f0` | 🔵 Light Blue |
+| **Button Action** | `#3182ce` | 🔵 Royal Blue |
+| **Success** | `#3db6b1` | 🟢 Teal |
+| **Alert/Error** | `#ff3838`, `#dc0000` | 🔴 Red |
+| **Warning** | `#ffee99`, `#f5c857` | 🟡 Yellow/Gold |
+| **Borders** | `#607b8f` | 🔘 Grey Blue |
+
+-----
+
+## 📦 Installation & Setup
+
+To run this project locally, follow these steps:
+
+1.  **Clone the repository**
+
+    ```bash
+    git clone https://github.com/Victor-430/student-fee-portal.git
+    ```
+
+2.  **Navigate to the project directory**
+
+    ```bash
+    cd student-fee-portal
+    ```
+
+3.  **Install dependencies**
+
+    ```bash
+    npm install
+    ```
+
+4.  **Start the development server**
+
+    ```bash
+    npm start
+    ```
+
+The application will launch in your browser at `http://localhost:5173`.
