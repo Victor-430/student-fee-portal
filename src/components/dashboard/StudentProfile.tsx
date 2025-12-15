@@ -7,7 +7,7 @@ import { useNavigate } from "react-router";
 export const StudentProfile = () => {
   const navigate = useNavigate()
 
-  const handlereceiptNavaigation = () => {
+  const handlereceiptNavigation = () => {
     navigate("/receipts")
   }
 
@@ -21,7 +21,7 @@ export const StudentProfile = () => {
       <div className="flex lg:flex-row flex-col justify-between items-center py-8 lg:py-10">
         <h1 className="">Student Profile</h1>
         <div className="space-x-2 flex pt-8 sm:pt-0">
-          <Button onClick={handlereceiptNavaigation} className="bg-blue-600 flex gap-2">
+          <Button onClick={handlereceiptNavigation} className="bg-blue-600 flex gap-2">
             {" "}
             View Receipts <Receipt />{" "}
           </Button>
@@ -34,8 +34,8 @@ export const StudentProfile = () => {
         <div className="flex gap-4 lg:flex-row flex-col">
           {/* avatar section */}
           <div className="  border-2 border-portal-ash p-4 flex flex-col gap-8 rounded-lg ">
-            <Avatar className="w-24 h-24  bg-portal-darkYellow">
-              <AvatarImage src="" alt="profile_img" />
+            <Avatar className="  bg-portal-darkYellow">
+              <AvatarImage src="https://avatar.iran.liara.run/public/49" alt="profile_img" />
               <AvatarFallback>profile image</AvatarFallback>
             </Avatar>
 
