@@ -1,61 +1,69 @@
-import { useState } from "react";
+import { useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { BookOpenCheck } from "lucide-react";
+import { useFee } from "@/hooks/useFee";
+import { formatCurrency } from "@/utils/TransactionHelpers";
 
 export const PaymentStatus = () => {
-  type PAYMENTSTATUS = "Completed" | "Outstanding";
-  // outstanding payment can either be total amount not paid or part payment paid
+  const { totalFee, amountPaid, paymentStatus, feeBalance } = useFee();
 
-  const [totalFee, setTotalFee] = useState<number>();
-  const [feeBalance, setFeeBalance] = useState<number>();
-  const [paymentStatus, setPaymentStatus] = useState<PAYMENTSTATUS | string>();
-  const [amountPaid, setAmountPaid] = useState<number>();
-
-  if (amountPaid < totalFee) {
-    // yellow
-    setFeeBalance(Math.floor(totalFee - amountPaid));
-    setPaymentStatus("Outstanding");
-  } else if (amountPaid === totalFee) {
-    // red
-  } else {
-    // green
-  }
+  const statusConfig = useMemo(() => {
+    if (paymentStatus === "Completed" || amountPaid >= totalFee) {
+      return {
+        color: "text-green-500",
+        bgColor: "bg-green-50",
+        label: "Completed",
+      };
+    } else if (amountPaid > 0) {
+      return {
+        color: "text-yellow-500",
+        bgColor: "bg-yellow-50",
+        label: "Part Payment",
+      };
+    } else {
+      return {
+        color: "text-red-500",
+        bgColor: "bg-red-50",
+        label: "Outstanding",
+      };
+    }
+  }, [paymentStatus, amountPaid, totalFee]);
 
   return (
-    // <div className="rounded-lg p-4 border-2 border-portal-ash">
-    //   <h2>Session:</h2> <span className="pl-4">(2025/2026)</span>
-    //   <div className="border-r-2 border-portal-darkGray">Payment Status</div>
-    //   <div
-    //     className={`flex gap-6 flex-col ${
-    //       paymentStatus === "Completed" ? "bg-green-600" : "bg-portal-darkRed"
-    //     }`}
-    //   >
-    //     {/* show stauts based on whether payment is successful, outstanding payment with amount to be paid */}
-    //     <p>{paymentStatus}</p>
-
-    //     {paymentStatus === "Outstanding" && <p>Amount: {feeBalance}</p>}
-    //   </div>
-    // </div>
-
-    // should show payment status for each section whether completed or outstanding
-
-    <Card className="lg:w-[90%] rounded-lg  py-12 text-white bg-portal-darkGray ">
+    <Card className="lg:w-[90%] rounded-lg py-12 text-white bg-portal-darkGray hover:scale-105 transition-transform">
       <CardHeader>
-        <CardTitle className=" text-center pb-6 text-2xl flex gap-4 justify-center items-center">
+        <CardTitle className="text-center pb-6 text-2xl flex gap-4 justify-center items-center">
           Session 2024/25 <BookOpenCheck />
         </CardTitle>
         <CardContent>
-          <div className=" flex gap-4 justify-center">
+          <div className="flex gap-4 justify-center">
             <div className="flex flex-col gap-4">
-              <p>Payment Status:</p>
-              <p className="font-bold text-2xl">completed</p>
+              <p className="text-sm opacity-80">Payment Status:</p>
+              <div className="flex items-center gap-2">
+               
+                <p className={`font-bold text-2xl ${statusConfig.color}`}>
+                  {statusConfig.label}
+                </p>
+              </div>
             </div>
-            <div className="border-r-2 border-portal-lightCyan "></div>
+            <div className="border-r-2 border-portal-lightCyan"></div>
             <div className="flex flex-col gap-4">
-              <p>(Amount &#8358; )</p>
-              <p className="font-bold text-2xl">10,000</p>
+              <p className="text-sm opacity-80">Amount Paid (₦)</p>
+              <p className="font-bold text-2xl text-green-400">
+                {formatCurrency(amountPaid)}
+              </p>
             </div>
           </div>
+
+          {/* Show balance if there's outstanding payment */}
+          {amountPaid < totalFee && totalFee > 0 && (
+            <div className="mt-6 pt-4 border-t border-portal-lightCyan/30 text-center">
+              <p className="text-sm opacity-80 mb-2">Balance Outstanding</p>
+              <p className="font-bold text-xl text-yellow-400">
+                {formatCurrency(feeBalance)}
+              </p>
+            </div>
+          )}
         </CardContent>
       </CardHeader>
     </Card>

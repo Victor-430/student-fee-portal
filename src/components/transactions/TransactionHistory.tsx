@@ -29,7 +29,7 @@ import {
 import { useFee } from "@/hooks/useFee";
 
 export const TransactionHistory = () => {
-  const {setAmountPaid} = useFee();
+  const {setAmountPaid,} = useFee();
   const navigate = useNavigate();
   const [transactions, setTransactions] = useState<TRANSACTION[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -87,7 +87,7 @@ export const TransactionHistory = () => {
         <div className="mb-6">
           <Button
             className="bg-blue-600 hover:bg-blue-700 flex items-center gap-2 mb-4"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/")}
           >
             <ChevronLeft size={20} /> Back
           </Button>

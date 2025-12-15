@@ -13,6 +13,7 @@ import {
 } from "@/utils/TransactionHelpers";
 
 import { CreditCard, Building, CheckCircle } from "lucide-react";
+import { toast } from "sonner";
 
 export const PaymentForm = () => {
   const navigate = useNavigate();
@@ -33,29 +34,29 @@ export const PaymentForm = () => {
 
   const validateForm = (): boolean => {
     if (!studentName.trim()) {
-      alert("Please enter student name");
+      toast.error("Please enter student name");
       return false;
     }
     if (!studentId.trim()) {
-      alert("Please enter student ID");
+      toast.error("Please enter student ID");
       return false;
     }
     if (selectedFee.length === 0) {
-      alert("No fees selected");
+      toast.error("No fees selected");
       return false;
     }
     
     if (paymentMethod === "Card") {
       if (cardNumber.length !== 16) {
-        alert("Please enter a valid 16-digit card number");
+        toast.warning("Please enter a valid 16-digit card number");
         return false;
       }
       if (!cardExpiry.match(/^\d{2}\/\d{2}$/)) {
-        alert("Please enter expiry in MM/YY format");
+        toast.warning("Please enter expiry in MM/YY format");
         return false;
       }
       if (cardCvv.length !== 3) {
-        alert("Please enter a valid 3-digit CVV");
+        toast.warning("Please enter a valid 3-digit CVV");
         return false;
       }
     }
@@ -92,7 +93,7 @@ export const PaymentForm = () => {
       
       setSelectedFee([]);
     } else {
-      alert("Failed to save transaction. Please try again.");
+      toast.error("Failed to save transaction. Please try again.");
     }
 
     setIsProcessing(false);
@@ -101,7 +102,7 @@ export const PaymentForm = () => {
   const handleViewReceipt = () => {
     const transaction = TransactionStorage.getById(transactionId);
     if (transaction) {
-      navigate("/receipt", { state: transaction });
+      navigate("/receipts", { state: transaction });
     }
   };
 
@@ -289,10 +290,15 @@ export const PaymentForm = () => {
             {paymentMethod === "Bank Transfer" && (
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                 <p className="text-sm text-blue-800 mb-2">
-                  <strong>Bank Account Details:</strong>
+                  <strong>Bank Account Details:
+                    <span className="bg-portal-lightYellow block mt-1 p-2 rounded">
+                      This is a test account number, do not transfer money into the account
+                      
+                      </span>
+                      </strong>
                 </p>
                 <ul className="text-sm text-blue-800 space-y-1">
-                  <li>Bank: Example Bank</li>
+                  <li>Bank: Polaris Bank</li>
                   <li>Account Name: School Fees Account</li>
                   <li>Account Number: 1234567890</li>
                   <li>Amount: {formatCurrency(totalAmount)}</li>

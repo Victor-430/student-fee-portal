@@ -61,7 +61,6 @@ export const PaymentSummary = () => {
               <TableRow key={fee.no}>
                 <TableCell className="text-left">{fee.no}</TableCell>
 
-                {/* <TableCell>{index + 1}</TableCell> */}
                 <TableCell>{fee.type}</TableCell>
                 <TableCell className="text-right">
                   {fee.amount.toLocaleString()}
