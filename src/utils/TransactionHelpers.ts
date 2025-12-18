@@ -7,8 +7,10 @@ export const generateTransactionId = (): string => {
 export const generateReferenceNumber = (): string => {
   const date = new Date();
   const year = date.getFullYear()
+  const month = date.getMonth()
+  const day = date.getDay()
   const random = Math.floor(Math.random() * 1000000);
-  return `REF${year}${String(random).padStart(6, "0")}`;
+  return `REF${year}${month}${day}${String(random).padStart(6, "0")}`;
 };
 
 export const formatDate = (dateString: string): string => {
