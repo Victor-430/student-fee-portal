@@ -7,27 +7,23 @@ import { formatCurrency } from "@/utils/TransactionHelpers";
 export const PaymentStatus = () => {
   const { totalFee, amountPaid, paymentStatus, feeBalance } = useFee();
 
-  // Determine the status color and display
   const statusConfig = useMemo(() => {
-    if (paymentStatus === "Completed" || amountPaid >= totalFee) {
+    if (paymentStatus === "Completed" && amountPaid === totalFee) {
       return {
         color: "text-green-500",
         bgColor: "bg-green-50",
-        borderColor: "border-green-500",
         label: "Completed",
       };
-    } else if (amountPaid > 0) {
+    } else if (amountPaid > 0 && feeBalance < totalFee) {
       return {
         color: "text-yellow-500",
         bgColor: "bg-yellow-50",
-        borderColor: "border-yellow-500",
         label: "Part Payment",
       };
     } else {
       return {
         color: "text-red-500",
         bgColor: "bg-red-50",
-        borderColor: "border-red-500",
         label: "Outstanding",
       };
     }
@@ -44,9 +40,7 @@ export const PaymentStatus = () => {
             <div className="flex flex-col gap-4">
               <p className="text-sm opacity-80">Payment Status:</p>
               <div className="flex items-center gap-2">
-                <div
-                  className={`w-3 h-3 rounded-full ${statusConfig.bgColor} ${statusConfig.borderColor} border-2`}
-                ></div>
+               
                 <p className={`font-bold text-2xl ${statusConfig.color}`}>
                   {statusConfig.label}
                 </p>

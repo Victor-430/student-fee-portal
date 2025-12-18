@@ -210,14 +210,7 @@ export const Notifications = () => {
             <div className="flex flex-col gap-4">
               <p className="text-sm opacity-80">Status</p>
               <div className="flex items-center gap-2">
-                <div
-                  className={`w-3 h-3 rounded-full border-2 ${
-                    notificationConfig.urgencyColor.includes('green') ? 'bg-green-500/20 border-green-500' :
-                    notificationConfig.urgencyColor.includes('yellow') ? 'bg-yellow-500/20 border-yellow-500' :
-                    notificationConfig.urgencyColor.includes('blue') ? 'bg-blue-500/20 border-blue-500' :
-                    'bg-red-500/20 border-red-500'
-                  }`}
-                ></div>
+              
                 <p className={`font-bold text-2xl ${notificationConfig.urgencyColor}`}>
                   {notificationConfig.status}
                 </p>
