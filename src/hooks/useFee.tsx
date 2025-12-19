@@ -6,7 +6,6 @@ const FeeContext = createContext<FEECONTEXT | null>(null);
 export const FeeProvider = ({ children }: { children: ReactNode }) => {
 
 
-  // Load from localStorage or use defaults
   const [totalFee, setTotalFee] = useState<number>(() => {
     const saved = localStorage.getItem(import.meta.env.VITE_FEE_STORAGE_KEY);
     return saved ? JSON.parse(saved).totalFee : 0;
@@ -26,12 +25,17 @@ export const FeeProvider = ({ children }: { children: ReactNode }) => {
  const [amountPaid, setAmountPaid] = useState<number>(() => {
   const saved = localStorage.getItem(import.meta.env.VITE_FEE_STORAGE_KEY);
   const parsed = saved ? JSON.parse(saved) : null;
-  return parsed?.amountPaid ?? 0; // Use nullish coalescing to default to 0
+  return parsed?.amountPaid ?? 0; 
 });
   const [clearAmountPaid, setClearAmountPaid] = useState<number>(() => {
     const saved = localStorage.getItem(import.meta.env.VITE_FEE_STORAGE_KEY);
     return saved ? JSON.parse(saved).clearAmountPaid : 0;
   });
+
+const [compulsoryFee, setCompulsoryFee] = useState<number>(() => {
+  const saved = localStorage.getItem(import.meta.env.VITE_FEE_STORAGE_KEY)
+ return saved ? JSON.parse(saved) : 0
+})
 
  const [selectedFee, setSelectedFee] = useState<FEEDATA[]>(() => {
     const saved = localStorage.getItem(import.meta.env.VITE_FEE_STORAGE_KEY);
@@ -55,9 +59,10 @@ export const FeeProvider = ({ children }: { children: ReactNode }) => {
       amountPaid,
       clearAmountPaid,
       selectedFee,
+      compulsoryFee
     };
     localStorage.setItem(import.meta.env.VITE_FEE_STORAGE_KEY, JSON.stringify(dataToSave));
-  }, [totalFee, feeBalance, paymentStatus, amountPaid, clearAmountPaid, selectedFee]);
+  }, [totalFee, feeBalance, paymentStatus, amountPaid, clearAmountPaid, selectedFee, compulsoryFee]);
 
   const feeValue: FEECONTEXT = {
     totalFee,
@@ -72,6 +77,9 @@ export const FeeProvider = ({ children }: { children: ReactNode }) => {
     setTotalFee,
     clearAmountPaid,
     setClearAmountPaid,
+    setCompulsoryFee,
+    compulsoryFee
+
   };
 
   return <FeeContext.Provider value={feeValue}>{children}</FeeContext.Provider>;

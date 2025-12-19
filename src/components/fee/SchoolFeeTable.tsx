@@ -11,9 +11,9 @@ import {
 import { Checkbox } from "../ui/checkbox";
 import { useFee } from "@/hooks/useFee";
 import { AlertCircle } from "lucide-react";
-import { TransactionStorage } from "@/utils/TransactionStorage";
+import { TransactionStorage } from "@/utils/transactionStorage";
 
-export const SchoolFeeTable = () => {
+export const SchoolFeeTable = ({FirstPaymentPaid}) => {
   const {
     selectedFee,
     setSelectedFee,
@@ -21,12 +21,14 @@ export const SchoolFeeTable = () => {
     setAmountPaid,
     totalFee,
     setFeeBalance,
+    compulsoryFee,
+    setCompulsoryFee,
   } = useFee();
 
   const [paidFees, setPaidFees] = useState<number[]>([]);
-  const [hasCompletedFirstPayment, setHasCompletedFirstPayment] = useState(false);
+  const [hasCompletedFirstPayment, setHasCompletedFirstPayment] =
+    useState(false);
 
-  // Define fee data with compulsory flag - MUST be defined before use
   const feeData: (FEEDATA & { isCompulsory?: boolean })[] = [
     { type: "School charges", amount: 150000, no: 1, isCompulsory: true },
     { type: "Hostel fee", amount: 50000, no: 2, isCompulsory: false },
@@ -42,35 +44,47 @@ export const SchoolFeeTable = () => {
     { type: "Lab Manual", amount: 1000, no: 12, isCompulsory: false },
   ];
 
-  const compulsoryFeesTotal = feeData
-    .filter(fee => fee.isCompulsory)
-    .reduce((sum, fee) => sum + fee.amount, 0);
-
   useEffect(() => {
-    const transactions = TransactionStorage.getAll();
-    const completedTransactions = transactions.filter(t => t.status === "Completed");
-    
-    if (completedTransactions.length > 0) {
-      setHasCompletedFirstPayment(true);
-      
-      const paidFeeNumbers = new Set<number>();
-      completedTransactions.forEach(transaction => {
-        transaction.fees.forEach(fee => {
-          const feeItem = feeData.find(f => f.type === fee.type);
-          if (feeItem) {
-            paidFeeNumbers.add(feeItem.no);
-          }
+    const loadTransactionHistory = () => {
+      const transactions = TransactionStorage.getAll();
+      const completedTransactions = transactions.filter(
+        (t) => t.status === "Completed"
+      );
+
+      if (completedTransactions.length > 0) {
+        const paidFeeNumbers = new Set<number>();
+        completedTransactions.forEach((transaction) => {
+          transaction.fees.forEach((fee) => {
+            const feeItem = feeData.find((f) => f.type === fee.type);
+            if (feeItem) {
+              paidFeeNumbers.add(feeItem.no);
+            }
+          });
         });
-      });
-      
-      setPaidFees(Array.from(paidFeeNumbers));
-    }
+
+        setPaidFees(Array.from(paidFeeNumbers));
+        setHasCompletedFirstPayment(true);
+      } else {
+        setPaidFees([]);
+        setHasCompletedFirstPayment(false);
+      }
+    };
+
+    const loadRequiredFee = () => {
+      const total = feeData.reduce((sum, fee) => sum + fee.amount, 0);
+
+      const compulsoryFeesTotal = feeData
+        .filter((fee) => fee.isCompulsory)
+        .reduce((sum, fee) => sum + fee.amount, 0);
+
+      setTotalFee(total);
+      setCompulsoryFee(compulsoryFeesTotal);
+    };
+
+    loadTransactionHistory();
+    loadRequiredFee();
   }, []);
 
-  useEffect(() => {
-    const total = feeData.reduce((sum, fee) => sum + fee.amount, 0);
-    setTotalFee(total);
-  }, []);
 
   const selectedAmount = selectedFee.reduce((sum, fee) => sum + fee.amount, 0);
 
@@ -105,13 +119,19 @@ export const SchoolFeeTable = () => {
   };
 
   const selectedCompulsoryAmount = selectedFee
-    .filter(fee => {
-      const feeItem = feeData.find(f => f.no === fee.no);
+    .filter((fee) => {
+      const feeItem = feeData.find((f) => f.no === fee.no);
       return feeItem?.isCompulsory;
     })
     .reduce((sum, fee) => sum + fee.amount, 0);
 
-  const hasMetMinimumRequirement = selectedCompulsoryAmount >= compulsoryFeesTotal;
+  const hasMetMinimumRequirement = hasCompletedFirstPayment
+    ? true
+    : selectedCompulsoryAmount >= compulsoryFee;
+
+    // pass selected compulsory amount to enable the continue button i
+  FirstPaymentPaid(selectedCompulsoryAmount)
+
 
   return (
     <div>
@@ -119,14 +139,21 @@ export const SchoolFeeTable = () => {
         <div className="flex items-start gap-2">
           <AlertCircle className="text-blue-600 mt-0.5" size={20} />
           <div>
-            <p className="font-semibold text-blue-900">Compulsory Fees Required</p>
+            <p className="font-semibold text-blue-900">
+              Compulsory Fees Required
+            </p>
             <p className="text-sm text-blue-700 mt-1">
               You must pay all compulsory fees (marked with *) totaling{" "}
-              <span className="font-bold">₦{compulsoryFeesTotal.toLocaleString()}</span> before proceeding.
+              <span className="font-bold">
+                ₦{compulsoryFee.toLocaleString()}
+              </span>{" "}
+              before proceeding.
             </p>
+
             {!hasMetMinimumRequirement && selectedFee.length > 0 && (
               <p className="text-sm text-red-600 mt-2 font-medium">
-                You have not selected all compulsory fees. Please select all required fees.
+                You have not selected all compulsory fees. Please select all
+                required fees.
               </p>
             )}
           </div>
@@ -163,14 +190,18 @@ export const SchoolFeeTable = () => {
           {feeData.map((fee) => {
             const isPaid = isItemPaid(fee.no);
             const isUnpaid = isItemUnpaid(fee.no);
-            
+
             return (
-              <TableRow 
+              <TableRow
                 key={fee.no}
                 className={`
-                  ${isPaid ? 'bg-green-50 hover:bg-green-100' : ''}
-                  ${isUnpaid ? 'bg-yellow-50 hover:bg-yellow-100' : ''}
-                  ${fee.isCompulsory && !isPaid ? 'border-l-4 border-l-red-500' : ''}
+                  ${isPaid ? "bg-green-50 hover:bg-green-100" : ""}
+                  ${isUnpaid ? "bg-yellow-50 hover:bg-yellow-100" : ""}
+                  ${
+                    fee.isCompulsory && !isPaid
+                      ? "border-l-4 border-l-red-500"
+                      : ""
+                  }
                 `}
               >
                 <TableCell className="text-center">{fee.no}</TableCell>
@@ -184,16 +215,24 @@ export const SchoolFeeTable = () => {
                       disabled={isPaid}
                     />
                     <div className="flex items-center gap-2">
-                      <span className={isPaid ? 'text-gray-500 line-through' : ''}>
+                      <span
+                        className={isPaid ? "text-gray-500 line-through" : ""}
+                      >
                         {fee.type}
                       </span>
                       {fee.isCompulsory && !isPaid && (
-                        <span className="text-red-600 font-bold text-lg">*</span>
+                        <span className="text-red-600 font-bold text-lg">
+                          *
+                        </span>
                       )}
                     </div>
                   </div>
                 </TableCell>
-                <TableCell className={`text-right font-medium ${isPaid ? 'text-gray-500' : ''}`}>
+                <TableCell
+                  className={`text-right font-medium ${
+                    isPaid ? "text-gray-500" : ""
+                  }`}
+                >
                   {fee.amount.toLocaleString()}
                 </TableCell>
                 <TableCell className="text-center">
@@ -218,7 +257,7 @@ export const SchoolFeeTable = () => {
               Selected Total
               {!hasMetMinimumRequirement && selectedFee.length > 0 && (
                 <span className="ml-2 text-sm text-red-600 font-normal">
-                  (Minimum required: ₦{compulsoryFeesTotal.toLocaleString()})
+                  (Minimum required: ₦{compulsoryFee.toLocaleString()})
                 </span>
               )}
             </TableCell>
@@ -228,7 +267,10 @@ export const SchoolFeeTable = () => {
           </TableRow>
           {hasMetMinimumRequirement && (
             <TableRow>
-              <TableCell colSpan={4} className="text-center text-sm text-green-600 font-medium">
+              <TableCell
+                colSpan={4}
+                className="text-center text-sm text-green-600 font-medium"
+              >
                 Minimum payment requirement met
               </TableCell>
             </TableRow>

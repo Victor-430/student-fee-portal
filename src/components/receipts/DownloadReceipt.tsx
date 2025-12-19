@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import { Download, Printer, ChevronLeft } from "lucide-react";
-import { formatDate, formatCurrency } from "@/utils/TransactionHelpers";
+import { formatDate, formatCurrency } from "@/utils/transactionHelpers";
 import html2pdf from "html2pdf.js";
 import { toast } from "sonner";
 

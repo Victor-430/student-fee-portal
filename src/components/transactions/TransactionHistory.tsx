@@ -17,13 +17,13 @@ import {
   Filter,
   Eye,
 } from "lucide-react";
-import { TransactionStorage } from "@/utils/TransactionStorage";
+import { TransactionStorage } from "@/utils/transactionStorage";
 import { 
   formatDate, 
   formatCurrency, 
   getStatusColor,
   getStatusIcon 
-} from "@/utils/TransactionHelpers";
+} from "@/utils/transactionHelpers";
 import { useFee } from "@/hooks/useFee";
 
 export const TransactionHistory = () => {

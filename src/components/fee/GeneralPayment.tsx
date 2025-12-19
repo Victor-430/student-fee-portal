@@ -3,13 +3,22 @@ import { useNavigate } from "react-router";
 import { useFee } from "@/hooks/useFee";
 import { SchoolFeeTable } from "./SchoolFeeTable";
 import { toast } from "sonner";
+import { useState } from "react";
 
 export const GeneralPayment = () => {
-  const { selectedFee } = useFee();
+  const { selectedFee, compulsoryFee } = useFee();
+  const [firstPayment, setFirstPayment] = useState(false)
 
   const navigation = useNavigate();
+    
+  console.log(firstPayment)
+  // track first payment for compulsory fee
+const requiredFee = (initialPay: number) => {
+if (initialPay >= compulsoryFee) setFirstPayment(true)
+}
 
   const continuePayment = () => {
+    // track subsequent payment
     if (selectedFee.length === 0) {
       toast.error("Please select at least one fee to continue");
       return;
@@ -37,11 +46,11 @@ export const GeneralPayment = () => {
       </div>
       <div className="border-portal-ash border-b-2 my-4"></div>
 
-      {/* Fee Table */}
-      <SchoolFeeTable />
+      <SchoolFeeTable FirstPaymentPaid={requiredFee} />
 
       <Button
         className="bg-portal-green w-full p-2 my-8"
+        disabled={!firstPayment}
         onClick={continuePayment}
       >
         Continue

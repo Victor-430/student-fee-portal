@@ -4,12 +4,12 @@ import { useNavigate } from "react-router";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useFee } from "@/hooks/useFee";
-import { TransactionStorage } from "@/utils/TransactionStorage"; 
+import { TransactionStorage } from "@/utils/transactionStorage"; 
 import { 
   generateTransactionId, 
   generateReferenceNumber,
   formatCurrency 
-} from "@/utils/TransactionHelpers";
+} from "@/utils/transactionHelpers";
 
 import { CreditCard, Building, CheckCircle } from "lucide-react";
 import { toast } from "sonner";

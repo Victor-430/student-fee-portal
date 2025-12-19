@@ -1,7 +1,7 @@
 import { Outlet, useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
-import { PaymentIndicator } from "@/utils/PaymentIndicator";
+import { PaymentIndicator } from "@/components/fee/PaymentIndicator";
 
 export const FeeLayout = () => {
   const navigate = useNavigate();

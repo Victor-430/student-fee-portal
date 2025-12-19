@@ -11,6 +11,8 @@ interface FEECONTEXT {
   setFeeBalance: (balance: number) => void;
   setPaymentStatus: (status: PAYMENTSTATUS | string) => void;
   paymentStatus: PAYMENTSTATUS | string;
+  setCompulsoryFee: (amount: number) => void
+  compulsoryFee: number
 }
 
 interface SCHOOLFEETABLEPROP {
