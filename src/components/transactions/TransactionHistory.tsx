@@ -10,49 +10,54 @@ import {
 } from "../ui/table";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { 
-  ChevronLeft, 
-  Download, 
-  Search, 
-  Filter,
-  Eye,
-} from "lucide-react";
+import { ChevronLeft, Download, Search, Filter, Eye } from "lucide-react";
 import { TransactionStorage } from "@/utils/transactionStorage";
-import { 
-  formatDate, 
-  formatCurrency, 
+import {
+  formatDate,
+  formatCurrency,
   getStatusColor,
-  getStatusIcon 
+  getStatusIcon,
 } from "@/utils/transactionHelpers";
 import { useFee } from "@/hooks/useFee";
 
 export const TransactionHistory = () => {
-  const { setAmountPaid, setPaymentStatus, totalFee } = useFee();
+  const {
+    setAmountPaid,
+    setPaymentStatus,
+    totalFee,
+    setFeeBalance,
+    amountPaid,
+    feeBalance,
+  } = useFee();
   const navigate = useNavigate();
-  
+
   // Initialize with lazy initialization to ensure it's always an array
   const [transactions] = useState<TRANSACTION[]>(() => {
     const allTransactions = TransactionStorage.getAll();
     return Array.isArray(allTransactions) ? allTransactions : [];
   });
-  
+
   const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState<TRANSACTIONSTATUS | "All">("All");
-  const [selectedTransaction, setSelectedTransaction] = useState<TRANSACTION | null>(null);
+  const [statusFilter, setStatusFilter] = useState<TRANSACTIONSTATUS | "All">(
+    "All"
+  );
+  const [selectedTransaction, setSelectedTransaction] =
+    useState<TRANSACTION | null>(null);
 
   const filteredTransactions = useMemo(() => {
     let filtered = [...transactions];
 
     if (statusFilter !== "All") {
-      filtered = filtered.filter(t => t.status === statusFilter);
+      filtered = filtered.filter((t) => t.status === statusFilter);
     }
 
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(t => 
-        t.referenceNumber.toLowerCase().includes(query) ||
-        t.studentName?.toLowerCase().includes(query) ||
-        t.id.toLowerCase().includes(query)
+      filtered = filtered.filter(
+        (t) =>
+          t.referenceNumber.toLowerCase().includes(query) ||
+          t.studentName?.toLowerCase().includes(query) ||
+          t.id.toLowerCase().includes(query)
       );
     }
 
@@ -61,23 +66,37 @@ export const TransactionHistory = () => {
 
   const totalPaidAmount = useMemo(() => {
     return transactions
-      .filter(t => t.status === "Completed")
+      .filter((t) => t.status === "Completed")
       .reduce((sum, t) => sum + t.totalAmount, 0);
   }, [transactions]);
 
   useEffect(() => {
-    setAmountPaid(totalPaidAmount); 
+    setAmountPaid(totalPaidAmount);
+    setFeeBalance(totalFee - amountPaid);
+
+    console.log("Fee Balance:", feeBalance);
+    console.log("Amount Paid:", amountPaid);
+    console.log("Total Fee:", totalFee);
 
     if (totalFee > 0) {
       if (totalPaidAmount >= totalFee) {
         setPaymentStatus("Completed");
       } else if (totalPaidAmount > 0) {
-        setPaymentStatus("Outstanding");
+        setPaymentStatus("Part Payment");
       } else {
         setPaymentStatus("Outstanding");
       }
     }
-  }, [transactions, totalPaidAmount, totalFee, setAmountPaid, setPaymentStatus]);
+  }, [
+    transactions,
+    totalPaidAmount,
+    totalFee,
+    setAmountPaid,
+    setPaymentStatus,
+    setFeeBalance,
+    amountPaid,
+    feeBalance,
+  ]);
   const handleViewDetails = (transaction: TRANSACTION) => {
     setSelectedTransaction(transaction);
   };
@@ -96,22 +115,31 @@ export const TransactionHistory = () => {
           >
             <ChevronLeft size={20} /> Back
           </Button>
-          <h1 className="text-3xl font-bold text-gray-800">Transaction History</h1>
-          <p className="text-gray-600 mt-2">View and manage your payment transactions</p>
+          <h1 className="text-3xl font-bold text-gray-800">
+            Transaction History
+          </h1>
+          <p className="text-gray-600 mt-2">
+            View and manage your payment transactions
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div className="bg-white rounded-lg shadow-sm p-6 border-l-4 border-blue-600">
             <p className="text-sm text-gray-600 mb-1">Total Transactions</p>
-            <p className="text-2xl font-bold text-gray-800">{transactions.length}</p>
+            <p className="text-2xl font-bold text-gray-800">
+              {transactions.length}
+            </p>
           </div>
           <div className="bg-white rounded-lg shadow-sm p-6 border-l-4 border-green-600">
             <p className="text-sm text-gray-600 mb-1">Total Paid</p>
-<p className="text-2xl font-bold text-green-700">{formatCurrency(totalPaidAmount)}</p>          </div>
+            <p className="text-2xl font-bold text-green-700">
+              {formatCurrency(totalPaidAmount)}
+            </p>{" "}
+          </div>
           <div className="bg-white rounded-lg shadow-sm p-6 border-l-4 border-yellow-600">
             <p className="text-sm text-gray-600 mb-1">Pending</p>
             <p className="text-2xl font-bold text-yellow-700">
-              {transactions.filter(t => t.status === "Pending").length}
+              {transactions.filter((t) => t.status === "Pending").length}
             </p>
           </div>
         </div>
@@ -119,7 +147,10 @@ export const TransactionHistory = () => {
         <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <Search
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                size={20}
+              />
               <Input
                 type="text"
                 placeholder="Search by reference, student name, or transaction ID..."
@@ -133,7 +164,9 @@ export const TransactionHistory = () => {
               <Filter size={20} className="text-gray-400" />
               <select
                 value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value as TRANSACTIONSTATUS | "All")}
+                onChange={(e) =>
+                  setStatusFilter(e.target.value as TRANSACTIONSTATUS | "All")
+                }
                 className="border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="All">All Status</option>
@@ -149,8 +182,8 @@ export const TransactionHistory = () => {
           {filteredTransactions.length === 0 ? (
             <div className="text-center py-12">
               <p className="text-gray-500 mb-4">
-                {transactions.length === 0 
-                  ? "No transactions yet. Make your first payment!" 
+                {transactions.length === 0
+                  ? "No transactions yet. Make your first payment!"
                   : "No transactions match your search criteria."}
               </p>
               <Button
@@ -169,7 +202,9 @@ export const TransactionHistory = () => {
                     <TableHead className="font-semibold">Reference</TableHead>
                     <TableHead className="font-semibold">Amount</TableHead>
                     <TableHead className="font-semibold">Status</TableHead>
-                    <TableHead className="font-semibold text-center">Actions</TableHead>
+                    <TableHead className="font-semibold text-center">
+                      Actions
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -185,12 +220,15 @@ export const TransactionHistory = () => {
                         {formatCurrency(transaction.totalAmount)}
                       </TableCell>
                       <TableCell>
-                        <span className={`
+                        <span
+                          className={`
                           inline-flex items-center gap-1 px-3 py-1 rounded-full 
                           text-xs font-medium border
                           ${getStatusColor(transaction.status)}
-                        `}>
-                          {getStatusIcon(transaction.status)} {transaction.status}
+                        `}
+                        >
+                          {getStatusIcon(transaction.status)}{" "}
+                          {transaction.status}
                         </span>
                       </TableCell>
                       <TableCell>
@@ -238,7 +276,7 @@ export const TransactionHistory = () => {
 const TransactionDetailModal = ({
   transaction,
   onClose,
-  onDownload
+  onDownload,
 }: {
   transaction: TRANSACTION;
   onClose: () => void;
@@ -250,7 +288,9 @@ const TransactionDetailModal = ({
         <div className="p-6">
           <div className="flex justify-between items-start mb-6">
             <div>
-              <h2 className="text-2xl font-bold text-gray-800">Transaction Details</h2>
+              <h2 className="text-2xl font-bold text-gray-800">
+                Transaction Details
+              </h2>
               <p className="text-sm text-gray-600 mt-1">
                 {formatDate(transaction.date)}
               </p>
@@ -273,7 +313,9 @@ const TransactionDetailModal = ({
               </div>
               <div>
                 <p className="text-sm text-gray-600">Reference Number</p>
-                <p className="font-mono font-medium">{transaction.referenceNumber}</p>
+                <p className="font-mono font-medium">
+                  {transaction.referenceNumber}
+                </p>
               </div>
               <div>
                 <p className="text-sm text-gray-600">Payment Method</p>
@@ -281,11 +323,13 @@ const TransactionDetailModal = ({
               </div>
               <div>
                 <p className="text-sm text-gray-600">Status</p>
-                <span className={`
+                <span
+                  className={`
                   inline-flex items-center gap-1 px-3 py-1 rounded-full 
                   text-xs font-medium border
                   ${getStatusColor(transaction.status)}
-                `}>
+                `}
+                >
                   {getStatusIcon(transaction.status)} {transaction.status}
                 </span>
               </div>
@@ -298,15 +342,21 @@ const TransactionDetailModal = ({
               <table className="w-full">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="text-left p-3 text-sm font-semibold">Payment Type</th>
-                    <th className="text-right p-3 text-sm font-semibold">Amount</th>
+                    <th className="text-left p-3 text-sm font-semibold">
+                      Payment Type
+                    </th>
+                    <th className="text-right p-3 text-sm font-semibold">
+                      Amount
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {transaction.fees.map((fee, index) => (
                     <tr key={index} className="border-t">
                       <td className="p-3 text-sm">{fee.type}</td>
-                      <td className="p-3 text-sm text-right">{formatCurrency(fee.amount)}</td>
+                      <td className="p-3 text-sm text-right">
+                        {formatCurrency(fee.amount)}
+                      </td>
                     </tr>
                   ))}
                   <tr className="border-t bg-gray-50">

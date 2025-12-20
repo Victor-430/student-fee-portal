@@ -5,7 +5,14 @@ import { PaymentIndicator } from "@/components/fee/PaymentIndicator";
 
 export const FeeLayout = () => {
   const navigate = useNavigate();
+  // const location = useLocation();
 
+  // const pathname = location.pathname
+
+  // if (pathname === "/fees/payment") {
+  //   console.log(pathname)
+  //   navigate("/fee")
+  // }
   const handleBack = () => {
     navigate(-1);
   };

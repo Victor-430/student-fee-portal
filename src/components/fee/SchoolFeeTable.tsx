@@ -18,9 +18,6 @@ export const SchoolFeeTable = ({ FirstPaymentPaid }: SCHOOLFEETABLEPROP) => {
     selectedFee,
     setSelectedFee,
     setTotalFee,
-    amountPaid,
-    totalFee,
-    setFeeBalance,
     compulsoryFee,
     setCompulsoryFee,
   } = useFee();
@@ -87,15 +84,7 @@ export const SchoolFeeTable = ({ FirstPaymentPaid }: SCHOOLFEETABLEPROP) => {
 
   const selectedAmount = selectedFee.reduce((sum, fee) => sum + fee.amount, 0);
 
-  useEffect(() => {
-    const transactionStatus = TransactionStorage.getAll()
-    const completedTransaction = transactionStatus.filter((t) => t.status === "Completed")
 
-    if (completedTransaction){
-      // update only if payment status is completed
-      setFeeBalance(totalFee - amountPaid);
-    }
-  }, [selectedAmount, totalFee, amountPaid, setFeeBalance]);
 
   const isItemChecked = (feeNo: number) => {
     return selectedFee.some((fee) => fee.no === feeNo);
