@@ -18,7 +18,7 @@ export const SchoolFeeTable = ({ FirstPaymentPaid }: SCHOOLFEETABLEPROP) => {
     selectedFee,
     setSelectedFee,
     setTotalFee,
-    setAmountPaid,
+    amountPaid,
     totalFee,
     setFeeBalance,
     compulsoryFee,
@@ -93,10 +93,9 @@ export const SchoolFeeTable = ({ FirstPaymentPaid }: SCHOOLFEETABLEPROP) => {
 
     if (completedTransaction){
       // update only if payment status is completed
-      setAmountPaid(selectedAmount);
-      setFeeBalance(totalFee - selectedAmount);
+      setFeeBalance(totalFee - amountPaid);
     }
-  }, [selectedAmount, totalFee, setAmountPaid, setFeeBalance]);
+  }, [selectedAmount, totalFee, amountPaid, setFeeBalance]);
 
   const isItemChecked = (feeNo: number) => {
     return selectedFee.some((fee) => fee.no === feeNo);

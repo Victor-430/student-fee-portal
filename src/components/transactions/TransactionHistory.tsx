@@ -31,7 +31,7 @@ export const TransactionHistory = () => {
   const navigate = useNavigate();
   
   // Initialize with lazy initialization to ensure it's always an array
-  const [transactions,] = useState<TRANSACTION[]>(() => {
+  const [transactions] = useState<TRANSACTION[]>(() => {
     const allTransactions = TransactionStorage.getAll();
     return Array.isArray(allTransactions) ? allTransactions : [];
   });
@@ -59,8 +59,6 @@ export const TransactionHistory = () => {
     return filtered;
   }, [transactions, searchQuery, statusFilter]);
 
-  // Calculate total paid amount from completed transactions
- // FIX: Calculate based on ALL transactions, not just the filtered view
   const totalPaidAmount = useMemo(() => {
     return transactions
       .filter(t => t.status === "Completed")
@@ -68,10 +66,8 @@ export const TransactionHistory = () => {
   }, [transactions]);
 
   useEffect(() => {
-    // Use the memoized value derived from ALL transactions
     setAmountPaid(totalPaidAmount); 
 
-    // Determine payment status based on totalFee from context
     if (totalFee > 0) {
       if (totalPaidAmount >= totalFee) {
         setPaymentStatus("Completed");
