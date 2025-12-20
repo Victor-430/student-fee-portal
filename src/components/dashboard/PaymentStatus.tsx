@@ -14,7 +14,7 @@ export const PaymentStatus = () => {
         bgColor: "bg-green-50",
         label: "Completed",
       };
-    } else if (amountPaid > 0 && feeBalance < totalFee) {
+    } else if (amountPaid > 0 && feeBalance < totalFee && paymentStatus === "Completed") {
       return {
         color: "text-yellow-500",
         bgColor: "bg-yellow-50",

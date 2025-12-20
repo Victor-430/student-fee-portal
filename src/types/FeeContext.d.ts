@@ -16,5 +16,6 @@ interface FEECONTEXT {
 }
 
 interface SCHOOLFEETABLEPROP {
-  setSelectedFee: React.Dispatch<React.SetStateAction<FEEDATA[]>>;
+  setSelectedFee?: React.Dispatch<React.SetStateAction<FEEDATA[]>>;
+  FirstPaymentPaid?: (selection:boolean) => void
 }

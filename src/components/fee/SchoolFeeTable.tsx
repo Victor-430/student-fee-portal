@@ -13,7 +13,7 @@ import { useFee } from "@/hooks/useFee";
 import { AlertCircle } from "lucide-react";
 import { TransactionStorage } from "@/utils/transactionStorage";
 
-export const SchoolFeeTable = ({FirstPaymentPaid}) => {
+export const SchoolFeeTable = ({ FirstPaymentPaid }: SCHOOLFEETABLEPROP) => {
   const {
     selectedFee,
     setSelectedFee,
@@ -85,12 +85,17 @@ export const SchoolFeeTable = ({FirstPaymentPaid}) => {
     loadRequiredFee();
   }, []);
 
-
   const selectedAmount = selectedFee.reduce((sum, fee) => sum + fee.amount, 0);
 
   useEffect(() => {
-    setAmountPaid(selectedAmount);
-    setFeeBalance(totalFee - selectedAmount);
+    const transactionStatus = TransactionStorage.getAll()
+    const completedTransaction = transactionStatus.filter((t) => t.status === "Completed")
+
+    if (completedTransaction){
+      // update only if payment status is completed
+      setAmountPaid(selectedAmount);
+      setFeeBalance(totalFee - selectedAmount);
+    }
   }, [selectedAmount, totalFee, setAmountPaid, setFeeBalance]);
 
   const isItemChecked = (feeNo: number) => {
@@ -118,6 +123,13 @@ export const SchoolFeeTable = ({FirstPaymentPaid}) => {
     }
   };
 
+  // note: compulsoryFees is used to get the boolean state
+  // while compulsoryFee is the total fee that is required to be paid
+  const compulsoryFees = feeData.filter((fee) => fee.isCompulsory);
+  const allCompulsoryFeesPaid = compulsoryFees.every((fee) =>
+    isItemPaid(fee.no)
+  );
+
   const selectedCompulsoryAmount = selectedFee
     .filter((fee) => {
       const feeItem = feeData.find((f) => f.no === fee.no);
@@ -129,37 +141,61 @@ export const SchoolFeeTable = ({FirstPaymentPaid}) => {
     ? true
     : selectedCompulsoryAmount >= compulsoryFee;
 
-    // pass selected compulsory amount to enable the continue button i
-  FirstPaymentPaid(selectedCompulsoryAmount)
+  
+  const allCompulsoryFeesSelected = compulsoryFees.every(
+    (fee) => isItemChecked(fee.no) || isItemPaid(fee.no)
+  );
 
+
+    // pass selected compulsory fee to enable the continue button
+  FirstPaymentPaid?.(allCompulsoryFeesSelected);
 
   return (
     <div>
-      <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-        <div className="flex items-start gap-2">
-          <AlertCircle className="text-blue-600 mt-0.5" size={20} />
-          <div>
-            <p className="font-semibold text-blue-900">
-              Compulsory Fees Required
-            </p>
-            <p className="text-sm text-blue-700 mt-1">
-              You must pay all compulsory fees (marked with *) totaling{" "}
-              <span className="font-bold">
-                ₦{compulsoryFee.toLocaleString()}
-              </span>{" "}
-              before proceeding.
-            </p>
-
-            {!hasMetMinimumRequirement && selectedFee.length > 0 && (
-              <p className="text-sm text-red-600 mt-2 font-medium">
-                You have not selected all compulsory fees. Please select all
-                required fees.
+      {!hasCompletedFirstPayment && !allCompulsoryFeesSelected && (
+        <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <div className="flex items-start gap-2">
+            <AlertCircle className="text-blue-600 mt-0.5" size={20} />
+            <div>
+              <p className="font-semibold text-blue-900">
+                Compulsory Fees Required
               </p>
-            )}
+              <p className="text-sm text-blue-700 mt-1">
+                Your first payment must include{" "}
+                <span className="font-bold">all compulsory fee totaling</span>
+                <span className="font-bold">
+                  ₦{compulsoryFee.toLocaleString()}
+                </span>
+                You can add optional fees to this payment or pay them later.
+              </p>
+
+              {!allCompulsoryFeesSelected && selectedFee.length > 0 && (
+                <p className="text-sm text-red-600 mt-2 font-medium">
+                  You have not selected all compulsory fees. Please select all
+                  required fees.
+                </p>
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
+      {hasCompletedFirstPayment && allCompulsoryFeesSelected && (
+        <div className="mb-4 flex p-4 bg-green-50 border-green-200 rounded-lg">
+          <div className="flex items-start gap-2">
+            <AlertCircle className="text-green-600 mt-0.5 size={20}" />
+          </div>
+          <div className="flex items-center gap-2">
+            <p className="font-semibold text-green-900">
+              All compulsory Fees paid
+            </p>
+            <p className="text-sm text-green-700 mt-1">
+              You have completed all compulsory fee payment.You can now pay any
+              remaining optional fee at your convenience
+            </p>
+          </div>
+        </div>
+      )}
       {hasCompletedFirstPayment && (
         <div className="mb-4 flex gap-4 text-sm">
           <div className="flex items-center gap-2">
@@ -169,10 +205,6 @@ export const SchoolFeeTable = ({FirstPaymentPaid}) => {
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-yellow-100 border border-yellow-500 rounded"></div>
             <span>Unpaid</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-red-600 font-bold">*</span>
-            <span>Compulsory</span>
           </div>
         </div>
       )}
@@ -220,11 +252,24 @@ export const SchoolFeeTable = ({FirstPaymentPaid}) => {
                       >
                         {fee.type}
                       </span>
-                      {fee.isCompulsory && !isPaid && (
-                        <span className="text-red-600 font-bold text-lg">
-                          *
+                      {fee.isCompulsory && isPaid && (
+                        <span
+                          className="text-green-600 font-bold text-lg"
+                          title="Compulsory fee paid"
+                        >
+                          Paid
                         </span>
                       )}
+                      {fee.isCompulsory &&
+                        !isPaid &&
+                        !hasCompletedFirstPayment && (
+                          <span
+                            className="text-red-600 font-bold text-lg"
+                            title="Compulsory for first payment"
+                          >
+                            *
+                          </span>
+                        )}
                     </div>
                   </div>
                 </TableCell>
@@ -255,23 +300,31 @@ export const SchoolFeeTable = ({FirstPaymentPaid}) => {
           <TableRow>
             <TableCell colSpan={3} className="font-bold text-lg">
               Selected Total
-              {!hasMetMinimumRequirement && selectedFee.length > 0 && (
-                <span className="ml-2 text-sm text-red-600 font-normal">
-                  (Minimum required: ₦{compulsoryFee.toLocaleString()})
-                </span>
-              )}
+              {!hasCompletedFirstPayment &&
+                !allCompulsoryFeesSelected &&
+                !allCompulsoryFeesPaid &&
+                selectedFee.length > 0 && (
+                  <span className="ml-2 text-sm text-red-600 font-normal">
+                    (Must include all compulsory fees: ₦
+                    {compulsoryFee.toLocaleString()})
+                  </span>
+                )}
             </TableCell>
             <TableCell className="text-right font-bold text-lg">
               ₦{selectedAmount.toLocaleString()}
             </TableCell>
           </TableRow>
-          {hasMetMinimumRequirement && (
+          {hasMetMinimumRequirement && selectedFee.length > 0 && (
             <TableRow>
               <TableCell
                 colSpan={4}
                 className="text-center text-sm text-green-600 font-medium"
               >
-                Minimum payment requirement met
+                {hasCompletedFirstPayment
+                  ? "You can proceed with this payment"
+                  : allCompulsoryFeesSelected
+                  ? "All compulsory fees selected - you can proceed"
+                  : "Payment ready"}
               </TableCell>
             </TableRow>
           )}

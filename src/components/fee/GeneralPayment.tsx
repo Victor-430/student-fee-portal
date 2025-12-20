@@ -7,15 +7,18 @@ import { useState } from "react";
 
 export const GeneralPayment = () => {
   const { selectedFee, compulsoryFee } = useFee();
-  const [firstPayment, setFirstPayment] = useState(false)
+  const [firstPayment, setFirstPayment] = useState(false);
 
   const navigation = useNavigate();
-    
-  console.log(firstPayment)
+
   // track first payment for compulsory fee
-const requiredFee = (initialPay: number) => {
-if (initialPay >= compulsoryFee) setFirstPayment(true)
-}
+  const requiredFee = (selection: boolean) => {
+    if (selection && compulsoryFee) {
+      setFirstPayment(true);
+    } else if (!selection && compulsoryFee) {
+      setFirstPayment(selection);
+    }
+  };
 
   const continuePayment = () => {
     // track subsequent payment
