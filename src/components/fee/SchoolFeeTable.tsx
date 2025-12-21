@@ -151,8 +151,8 @@ export const SchoolFeeTable = ({ FirstPaymentPaid }: SCHOOLFEETABLEPROP) => {
               <p className="text-sm text-blue-700 mt-1">
                 Your first payment must include{" "}
                 <span className="font-bold">all compulsory fee totaling</span>
-                <span className="font-bold">
-                  ₦{compulsoryFee.toLocaleString()}
+                <span className="font-bold mx-1">
+                  ₦{compulsoryFee.toLocaleString()}.
                 </span>
                 You can add optional fees to this payment or pay them later.
               </p>
@@ -240,14 +240,7 @@ export const SchoolFeeTable = ({ FirstPaymentPaid }: SCHOOLFEETABLEPROP) => {
                       >
                         {fee.type}
                       </span>
-                      {fee.isCompulsory && isPaid && (
-                        <span
-                          className="text-green-600 font-bold text-lg"
-                          title="Compulsory fee paid"
-                        >
-                          Paid
-                        </span>
-                      )}
+                     
                       {fee.isCompulsory &&
                         !isPaid &&
                         !hasCompletedFirstPayment && (

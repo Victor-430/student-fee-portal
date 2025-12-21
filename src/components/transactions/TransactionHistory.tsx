@@ -27,7 +27,7 @@ export const TransactionHistory = () => {
     totalFee,
     setFeeBalance,
     amountPaid,
-    feeBalance, 
+    
   } = useFee();
   const navigate = useNavigate();
 
@@ -73,11 +73,7 @@ export const TransactionHistory = () => {
   useEffect(() => {
     setAmountPaid(totalPaidAmount);
     setFeeBalance(totalFee - amountPaid);
-
-    console.log("Fee Balance:", feeBalance);
-    console.log("Amount Paid:", amountPaid);
-    console.log("Total Fee:", totalFee);
-
+    
     if (totalFee > 0) {
       if (totalPaidAmount >= totalFee) {
         setPaymentStatus("Completed");
@@ -95,7 +91,6 @@ export const TransactionHistory = () => {
     setPaymentStatus,
     setFeeBalance,
     amountPaid,
-    feeBalance,
   ]);
   const handleViewDetails = (transaction: TRANSACTION) => {
     setSelectedTransaction(transaction);

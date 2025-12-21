@@ -15,7 +15,7 @@ export const Notifications = () => {
   );
 
   const notificationConfig = useMemo(() => {
-    if ((paymentStatus === "Completed" || feeBalance <= 0) && totalFee > 0) {
+    if ((paymentStatus === "Completed" || feeBalance === totalFee) ) {
       return {
         status: "Completed",
         message: "All fees paid!",
@@ -131,14 +131,7 @@ export const Notifications = () => {
             </div>
           )}
 
-          {/* Message for new users with no fees set */}
-          {totalFee === 0 && (
-            <div className="mt-4 pt-4 border-t border-portal-lightCyan/30 text-center">
-              <p className="text-sm opacity-80 italic">
-                Select fees to see payment notifications
-              </p>
-            </div>
-          )}
+         
         </CardContent>
       </CardHeader>
     </Card>
