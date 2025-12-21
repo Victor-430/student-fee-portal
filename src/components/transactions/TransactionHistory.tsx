@@ -27,7 +27,7 @@ export const TransactionHistory = () => {
     totalFee,
     setFeeBalance,
     amountPaid,
-    feeBalance,
+    feeBalance, 
   } = useFee();
   const navigate = useNavigate();
 

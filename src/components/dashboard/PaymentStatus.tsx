@@ -27,7 +27,7 @@ export const PaymentStatus = () => {
         label: "Outstanding",
       };
     }
-  }, [paymentStatus, amountPaid, totalFee]);
+  }, [paymentStatus, amountPaid, totalFee, feeBalance]);
 
   return (
     <Card className="lg:w-[90%] rounded-lg py-12 text-white bg-portal-darkGray hover:scale-105 transition-transform">

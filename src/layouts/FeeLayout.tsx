@@ -1,19 +1,21 @@
-import { Outlet, useNavigate } from "react-router";
+import { Outlet, useLocation, useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import { PaymentIndicator } from "@/components/fee/PaymentIndicator";
 
 export const FeeLayout = () => {
   const navigate = useNavigate();
-  // const location = useLocation();
+  const location = useLocation();
+  const pathname = location.pathname;
 
-  // const pathname = location.pathname
-
-  // if (pathname === "/fees/payment") {
-  //   console.log(pathname)
-  //   navigate("/fee")
-  // }
   const handleBack = () => {
+    if (pathname === "/fees/payment") {
+      navigate("/");
+      return;
+    } else if (pathname === "/fees/summary") {
+      navigate(-1);
+      return;
+    }
     navigate(-1);
   };
 
