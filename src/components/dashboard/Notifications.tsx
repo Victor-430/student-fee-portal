@@ -7,7 +7,7 @@ import { formatCurrency } from "@/utils/transactionHelpers";
 export const Notifications = () => {
   const { feeBalance, paymentStatus, totalFee } = useFee();
 
-  const paymentDeadline = new Date("2026-01-31"); 
+  const paymentDeadline = new Date("2026-01-31");
   const currentDate = new Date();
 
   const daysRemaining = Math.ceil(
@@ -15,7 +15,7 @@ export const Notifications = () => {
   );
 
   const notificationConfig = useMemo(() => {
-    if ((paymentStatus === "Completed" || feeBalance === totalFee) ) {
+    if (paymentStatus === "Completed" || feeBalance === totalFee) {
       return {
         status: "Completed",
         message: "All fees paid!",
@@ -33,7 +33,9 @@ export const Notifications = () => {
         message: "Payment deadline is very close!",
         icon: <AlertTriangle className="text-red-400 animate-pulse" />,
         urgencyColor: "text-red-400",
-        urgencyLabel: `${daysRemaining} ${daysRemaining === 1 ? 'day' : 'days'} left`,
+        urgencyLabel: `${daysRemaining} ${
+          daysRemaining === 1 ? "day" : "days"
+        } left`,
         showBalance: true,
       };
     }
@@ -57,7 +59,9 @@ export const Notifications = () => {
         message: "Payment is overdue!",
         icon: <AlertTriangle className="text-red-500 animate-pulse" />,
         urgencyColor: "text-red-500",
-        urgencyLabel: `${Math.abs(daysRemaining)} ${Math.abs(daysRemaining) === 1 ? 'day' : 'days'} overdue`,
+        urgencyLabel: `${Math.abs(daysRemaining)} ${
+          Math.abs(daysRemaining) === 1 ? "day" : "days"
+        } overdue`,
         showBalance: true,
       };
     }
@@ -80,20 +84,23 @@ export const Notifications = () => {
           Notifications {notificationConfig.icon}
         </CardTitle>
         <CardContent>
-          <div className="flex gap-4 justify-center mb-6">
+          <div className="flex flex-col md:flex-row gap-4 justify-center mb-6">
             <div className="flex flex-col gap-4">
               <p className="text-sm opacity-80">Status</p>
               <div className="flex items-center gap-2">
-              
-                <p className={`font-bold text-2xl ${notificationConfig.urgencyColor}`}>
+                <p
+                  className={`font-bold text-2xl ${notificationConfig.urgencyColor}`}
+                >
                   {notificationConfig.status}
                 </p>
               </div>
             </div>
-            <div className="border-r-2 border-portal-lightCyan"></div>
+            <div className="border-t-2  md:border-r-2 border-portal-lightCyan"></div>
             <div className="flex flex-col gap-4">
               <p className="text-sm opacity-80">Deadline</p>
-              <p className={`font-bold text-2xl ${notificationConfig.urgencyColor}`}>
+              <p
+                className={`font-bold text-2xl ${notificationConfig.urgencyColor}`}
+              >
                 {notificationConfig.urgencyLabel}
               </p>
             </div>
@@ -101,7 +108,7 @@ export const Notifications = () => {
 
           {/* Show outstanding balance */}
           {notificationConfig.showBalance && feeBalance > 0 && (
-            <div className="mt-4 pt-4 border-t border-portal-lightCyan/30">
+            <div className=" mt-4 pt-4 border-t border-portal-lightCyan/30">
               <div className="text-center">
                 <p className="text-sm opacity-80 mb-2">Outstanding Balance</p>
                 <p className="font-bold text-xl text-red-400">
@@ -130,8 +137,6 @@ export const Notifications = () => {
               </p>
             </div>
           )}
-
-         
         </CardContent>
       </CardHeader>
     </Card>
