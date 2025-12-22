@@ -32,11 +32,11 @@ export const PaymentStatus = () => {
   return (
     <Card className="lg:w-[90%] rounded-lg py-12 text-white bg-portal-darkGray hover:scale-105 transition-transform">
       <CardHeader>
-        <CardTitle className="text-center pb-6 text-2xl flex gap-4 justify-center items-center">
+        <CardTitle className="text-center pb-6 md:text-2xl text-xl flex gap-4 justify-center items-center">
           Session 2024/25 <BookOpenCheck />
         </CardTitle>
         <CardContent>
-          <div className="flex gap-4 justify-center">
+          <div className="flex flex-col md:flex-row gap-4 justify-center">
             <div className="flex flex-col gap-4">
               <p className="text-sm opacity-80">Payment Status:</p>
               <div className="flex items-center gap-2">
@@ -46,7 +46,7 @@ export const PaymentStatus = () => {
                 </p>
               </div>
             </div>
-            <div className="border-r-2 border-portal-lightCyan"></div>
+            <div className="border-t-2  md:border-r-2 border-portal-lightCyan"></div>
             <div className="flex flex-col gap-4">
               <p className="text-sm opacity-80">Amount Paid (₦)</p>
               <p className="font-bold text-2xl text-green-400">
