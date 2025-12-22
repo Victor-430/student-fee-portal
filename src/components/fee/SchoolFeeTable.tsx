@@ -82,21 +82,38 @@ export const SchoolFeeTable = ({ FirstPaymentPaid }: SCHOOLFEETABLEPROP) => {
     loadRequiredFee();
   }, []);
 
-  const selectedAmount = selectedFee.reduce((sum, fee) => sum + fee.amount, 0);
-
-
-
-  const isItemChecked = (feeNo: number) => {
-    return selectedFee.some((fee) => fee.no === feeNo);
-  };
-
   const isItemPaid = (feeNo: number) => {
     return paidFees.includes(feeNo);
   };
 
+    const isItemChecked = (feeNo: number) => {
+    return selectedFee.some((fee) => fee.no === feeNo);
+  };
+
+
   const isItemUnpaid = (feeNo: number) => {
     return hasCompletedFirstPayment && !isItemPaid(feeNo);
   };
+
+  // note: compulsoryFees is used to get the boolean state
+  // while compulsoryFee is the total fee that is required to be paid
+  const compulsoryFees = feeData.filter((fee) => fee.isCompulsory);
+  const allCompulsoryFeesPaid = compulsoryFees.every((fee) =>
+    isItemPaid(fee.no)
+  );
+
+  const allCompulsoryFeesSelected = compulsoryFees.every(
+    (fee) => isItemChecked(fee.no) || isItemPaid(fee.no)
+  );
+
+  useEffect(() => {
+    // pass selected compulsory fee to enable the continue button
+    FirstPaymentPaid?.(allCompulsoryFeesSelected);
+  }, [allCompulsoryFeesSelected, FirstPaymentPaid]);
+
+  const selectedAmount = selectedFee.reduce((sum, fee) => sum + fee.amount, 0);
+
+
 
   const handleCheckedItems = (fee: FEEDATA, isChecked: boolean) => {
     if (isChecked) {
@@ -111,13 +128,6 @@ export const SchoolFeeTable = ({ FirstPaymentPaid }: SCHOOLFEETABLEPROP) => {
     }
   };
 
-  // note: compulsoryFees is used to get the boolean state
-  // while compulsoryFee is the total fee that is required to be paid
-  const compulsoryFees = feeData.filter((fee) => fee.isCompulsory);
-  const allCompulsoryFeesPaid = compulsoryFees.every((fee) =>
-    isItemPaid(fee.no)
-  );
-
   const selectedCompulsoryAmount = selectedFee
     .filter((fee) => {
       const feeItem = feeData.find((f) => f.no === fee.no);
@@ -128,15 +138,6 @@ export const SchoolFeeTable = ({ FirstPaymentPaid }: SCHOOLFEETABLEPROP) => {
   const hasMetMinimumRequirement = hasCompletedFirstPayment
     ? true
     : selectedCompulsoryAmount >= compulsoryFee;
-
-  
-  const allCompulsoryFeesSelected = compulsoryFees.every(
-    (fee) => isItemChecked(fee.no) || isItemPaid(fee.no)
-  );
-
-
-    // pass selected compulsory fee to enable the continue button
-  FirstPaymentPaid?.(allCompulsoryFeesSelected);
 
   return (
     <div>
@@ -240,7 +241,7 @@ export const SchoolFeeTable = ({ FirstPaymentPaid }: SCHOOLFEETABLEPROP) => {
                       >
                         {fee.type}
                       </span>
-                     
+
                       {fee.isCompulsory &&
                         !isPaid &&
                         !hasCompletedFirstPayment && (
