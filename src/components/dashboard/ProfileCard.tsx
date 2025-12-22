@@ -39,7 +39,7 @@ export const ProfileCard = () => {
         <div className="  border-2 border-portal-ash   space-x-16 lg:space-x-0 lg:justify-between w-full p-4 flex flex-wrap flex-col md:flex-row gap-8 rounded-lg ">
           <Avatar className="w-24 h-24 rounded-full bg-portal-darkYellow">
             <AvatarImage
-              src="https://avatar.iran.liara.run/public/49"
+              src="/public/Profile pics.png"
               alt="profile_img"
             />
             <AvatarFallback>profile image</AvatarFallback>
