@@ -1,20 +1,35 @@
-import { CreditCard, Receipt } from "lucide-react";
+import { Receipt, Wallet } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
+import { useNavigate } from "react-router";
 
 export const ProfileCard = () => {
+  const navigate = useNavigate();
+
+  const handleReceiptNavigation = () => {
+    navigate("/receipts", { replace: false });
+  };
+
+  const handleFeeNavigation = () => {
+    navigate("/fees", { replace: false });
+  };
 
   return (
     <div className="w-full">
       <div className="flex lg:flex-row flex-col justify-between items-center py-8 lg:py-10">
         <h1 className="font-bold text-2xl">Student Profile</h1>
         <div className="space-x-2 flex pt-8 sm:pt-0">
-          <Button className="bg-blue-600 flex gap-4">
-            {" "}
+          <Button
+            onClick={handleReceiptNavigation}
+            className="bg-blue-600 flex gap-4"
+          >
             View Receipts <Receipt />{" "}
           </Button>
-          <Button className="bg-blue-600 rounded-lg flex gap-4">
-            Fees Details <CreditCard />{" "}
+          <Button
+            onClick={handleFeeNavigation}
+            className="bg-blue-600 rounded-lg flex gap-4"
+          >
+            Fees Details <Wallet />{" "}
           </Button>
         </div>
       </div>
@@ -22,8 +37,11 @@ export const ProfileCard = () => {
       <div className="flex gap-4 md:flex-row flex-col   ">
         {/* avatar section */}
         <div className="  border-2 border-portal-ash   space-x-16 lg:space-x-0 lg:justify-between w-full p-4 flex flex-wrap flex-col md:flex-row gap-8 rounded-lg ">
-          <Avatar className="w-24 h-24 roundded-full bg-portal-darkYellow">
-            <AvatarImage src="" alt="profile_img" />
+          <Avatar className="w-24 h-24 rounded-full bg-portal-darkYellow">
+            <AvatarImage
+              src="https://avatar.iran.liara.run/public/49"
+              alt="profile_img"
+            />
             <AvatarFallback>profile image</AvatarFallback>
           </Avatar>
 
