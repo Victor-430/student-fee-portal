@@ -50,7 +50,7 @@ export const SchoolFeeTable = ({ FirstPaymentPaid }: SCHOOLFEETABLEPROP) => {
 
       if (completedTransactions.length > 0) {
         const paidFeeNumbers = new Set<number>();
-        completedTransactions.forEach((transaction) => {
+        completedTransactions.forEach((transaction:TRANSACTION) => {
           transaction.fees.forEach((fee: FEEDATA) => {
             const feeItem = feeData.find(
               (
