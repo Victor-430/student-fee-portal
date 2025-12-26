@@ -45,14 +45,20 @@ export const SchoolFeeTable = ({ FirstPaymentPaid }: SCHOOLFEETABLEPROP) => {
     const loadTransactionHistory = () => {
       const transactions = TransactionStorage.getAll();
       const completedTransactions = transactions.filter(
-        (t) => t.status === "Completed"
+        (t: TRANSACTION) => t.status === "Completed"
       );
 
       if (completedTransactions.length > 0) {
         const paidFeeNumbers = new Set<number>();
         completedTransactions.forEach((transaction) => {
-          transaction.fees.forEach((fee) => {
-            const feeItem = feeData.find((f) => f.type === fee.type);
+          transaction.fees.forEach((fee: FEEDATA) => {
+            const feeItem = feeData.find(
+              (
+                f: FEEDATA & {
+                  isCompulsory?: boolean;
+                }
+              ) => f.type === fee.type
+            );
             if (feeItem) {
               paidFeeNumbers.add(feeItem.no);
             }
@@ -86,10 +92,9 @@ export const SchoolFeeTable = ({ FirstPaymentPaid }: SCHOOLFEETABLEPROP) => {
     return paidFees.includes(feeNo);
   };
 
-    const isItemChecked = (feeNo: number) => {
+  const isItemChecked = (feeNo: number) => {
     return selectedFee.some((fee) => fee.no === feeNo);
   };
-
 
   const isItemUnpaid = (feeNo: number) => {
     return hasCompletedFirstPayment && !isItemPaid(feeNo);
@@ -112,8 +117,6 @@ export const SchoolFeeTable = ({ FirstPaymentPaid }: SCHOOLFEETABLEPROP) => {
   }, [allCompulsoryFeesSelected, FirstPaymentPaid]);
 
   const selectedAmount = selectedFee.reduce((sum, fee) => sum + fee.amount, 0);
-
-
 
   const handleCheckedItems = (fee: FEEDATA, isChecked: boolean) => {
     if (isChecked) {
