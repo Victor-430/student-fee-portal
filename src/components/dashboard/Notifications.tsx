@@ -78,7 +78,7 @@ export const Notifications = () => {
   }, [daysRemaining, paymentStatus, feeBalance, totalFee]);
 
   return (
-    <Card className="lg:w-[90%] rounded-lg py-12 text-white bg-portal-darkGray hover:scale-105 transition-transform">
+    <Card className="rounded-lg py-12 text-white bg-portal-darkGray hover:scale-105 transition-transform">
       <CardHeader>
         <CardTitle className="text-center pb-6 flex justify-center items-center gap-4 text-2xl">
           Notifications {notificationConfig.icon}

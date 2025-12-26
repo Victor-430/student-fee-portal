@@ -16,7 +16,7 @@ export const ProfileCard = () => {
 
   return (
     <div className="w-full">
-      <div className="flex lg:flex-row flex-col justify-between items-center py-8 lg:py-10">
+      <div className="flex lg:flex-row flex-col justify-between items-center py-8 md:space-y-4 lg:space-y-0 lg:py-10">
         <h1 className="font-bold text-2xl">Student Profile</h1>
         <div className="space-x-2 flex pt-8 sm:pt-0">
           <Button
@@ -36,17 +36,17 @@ export const ProfileCard = () => {
 
       <div className="flex gap-4 md:flex-row flex-col   ">
         {/* avatar section */}
-        <div className="  border-2 border-portal-ash   space-x-16 lg:space-x-0 lg:justify-between w-full p-4 flex flex-wrap flex-col md:flex-row gap-8 rounded-lg ">
+        <div className="  border-2 border-portal-ash md:items-center w-full md:justify-between px-4 md:px-8 py-4 flex flex-wrap flex-col md:flex-row gap-8 rounded-lg ">
           <Avatar className="w-24 h-24 rounded-full bg-portal-darkYellow">
             <AvatarImage
-              src="/public/Profile pics.png"
+              src="/Profile pics.png"
               alt="profile_img"
             />
             <AvatarFallback>profile image</AvatarFallback>
           </Avatar>
 
-          <div className="space-y-6 space-x-16  lg:space-x-0 md:flex lg:block  ">
-            <div className="md:space-x-8 flex flex-col space-y-4 lg:flex-row">
+          <div className="space-y-6 md:flex lg:block md:space-x-12 lg:space-x-0">
+            <div className="xl:space-x-6 flex flex-col space-y-4 xl:flex-row">
               <h1 className="font-bold text-2xl uppercase">Oyeleke Victor</h1>
               <p className=" p-2 bg-portal-green rounded-sm w-fit uppercase">
                 Admission no: flex113

@@ -30,7 +30,7 @@ export const PaymentStatus = () => {
   }, [paymentStatus, amountPaid, totalFee, feeBalance]);
 
   return (
-    <Card className="lg:w-[90%] rounded-lg py-12 text-white bg-portal-darkGray hover:scale-105 transition-transform">
+    <Card className="rounded-lg py-12 text-white bg-portal-darkGray hover:scale-105 transition-transform">
       <CardHeader>
         <CardTitle className="text-center pb-6 md:text-2xl text-xl flex gap-4 justify-center items-center">
           Session 2024/25 <BookOpenCheck />
