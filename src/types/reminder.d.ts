@@ -1,6 +1,6 @@
-// ============================================
-// FILE 1: src/types/reminder.types.ts
-// ============================================
+declare global {
+
+  
 
 export type ReminderPriority = "Low" | "Medium" | "High" | "Urgent";
 export type ReminderStatus = "Active" | "Dismissed" | "Completed";
@@ -30,11 +30,7 @@ export interface ReminderSettings {
   showDiscountReminders: boolean;
 }
 
-// ============================================
-// FILE 2: src/utils/reminderStorage.ts
-// ============================================
 
-// LESSON 49: Reminder storage with localStorage
 
 const REMINDERS_KEY = "payment_reminders";
 const SETTINGS_KEY = "reminder_settings";
@@ -183,12 +179,6 @@ export const reminderStorage = {
 };
 
 
-// ============================================
-// FILE 3: src/utils/reminderHelpers.ts
-// ============================================
-
-// LESSON 50: Helper functions for reminder logic
-
 export const reminderHelpers = {
   // Generate unique reminder ID
   generateId: (): string => {
@@ -306,3 +296,6 @@ export const reminderHelpers = {
     return settings.notifyDaysBefore.includes(daysUntil) || daysUntil <= 0;
   }
 };
+}
+
+export {}

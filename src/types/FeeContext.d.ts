@@ -1,3 +1,5 @@
+declare global {
+
 interface FEECONTEXT {
   totalFee: number;
   amountPaid: number;
@@ -19,3 +21,7 @@ interface SCHOOLFEETABLEPROP {
   setSelectedFee?: React.Dispatch<React.SetStateAction<FEEDATA[]>>;
   FirstPaymentPaid?: (selection:boolean) => void
 }
+}
+
+
+export {}
