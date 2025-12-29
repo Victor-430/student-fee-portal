@@ -5,7 +5,7 @@ import { useFee } from "@/hooks/useFee";
 import { formatCurrency } from "@/utils/transactionHelpers";
 
 export const Notifications = () => {
-  const { feeBalance, paymentStatus, totalFee } = useFee();
+  const { amountPaid, paymentStatus, totalFee, feeBalance } = useFee();
 
   const paymentDeadline = new Date("2026-01-31");
   const currentDate = new Date();
@@ -15,7 +15,7 @@ export const Notifications = () => {
   );
 
   const notificationConfig = useMemo(() => {
-    if (paymentStatus === "Completed" || feeBalance === totalFee) {
+    if (paymentStatus === "Completed" && amountPaid === totalFee && totalFee > 0) {
       return {
         status: "Completed",
         message: "All fees paid!",
@@ -75,13 +75,13 @@ export const Notifications = () => {
       urgencyLabel: `${daysRemaining} days left`,
       showBalance: true,
     };
-  }, [daysRemaining, paymentStatus, feeBalance, totalFee]);
+  }, [daysRemaining, paymentStatus, amountPaid, totalFee]);
 
   return (
     <Card className="rounded-lg py-12 text-white bg-portal-darkGray hover:scale-105 transition-transform">
       <CardHeader>
         <CardTitle className="text-center pb-6 flex justify-center items-center gap-4 text-2xl">
-          Notifications {notificationConfig.icon}
+          Notifications {notificationConfig?.icon}
         </CardTitle>
         <CardContent>
           <div className="flex flex-col md:flex-row gap-4 justify-center mb-6">
@@ -89,9 +89,9 @@ export const Notifications = () => {
               <p className="text-sm opacity-80">Status</p>
               <div className="flex items-center gap-2">
                 <p
-                  className={`font-bold text-2xl ${notificationConfig.urgencyColor}`}
+                  className={`font-bold text-2xl ${notificationConfig?.urgencyColor}`}
                 >
-                  {notificationConfig.status}
+                  {notificationConfig?.status}
                 </p>
               </div>
             </div>
@@ -99,15 +99,15 @@ export const Notifications = () => {
             <div className="flex flex-col gap-4">
               <p className="text-sm opacity-80">Deadline</p>
               <p
-                className={`font-bold text-2xl ${notificationConfig.urgencyColor}`}
+                className={`font-bold text-2xl ${notificationConfig?.urgencyColor}`}
               >
-                {notificationConfig.urgencyLabel}
+                {notificationConfig?.urgencyLabel}
               </p>
             </div>
           </div>
 
           {/* Show outstanding balance */}
-          {notificationConfig.showBalance && feeBalance > 0 && (
+          {notificationConfig?.showBalance && feeBalance > 0 && (
             <div className=" mt-4 pt-4 border-t border-portal-lightCyan/30">
               <div className="text-center">
                 <p className="text-sm opacity-80 mb-2">Outstanding Balance</p>
