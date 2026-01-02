@@ -69,7 +69,7 @@ export const PaymentSummary = () => {
           </TableBody>
           <TableFooter>
             <TableRow>
-              <TableCell colSpan={3} className="font-bold text-lg">
+              <TableCell colSpan={2} className="font-bold text-lg">
                 Total Amount
               </TableCell>
               <TableCell className="text-right font-bold text-lg">
