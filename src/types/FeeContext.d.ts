@@ -15,6 +15,7 @@ interface FEECONTEXT {
   paymentStatus: PAYMENTSTATUS | string;
   setCompulsoryFee: (amount: number) => void
   compulsoryFee: number
+  syncFromTransactions: () => void
 }
 
 interface SCHOOLFEETABLEPROP {

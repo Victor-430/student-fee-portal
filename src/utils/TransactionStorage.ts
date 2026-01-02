@@ -1,21 +1,21 @@
 export const TransactionStorage = {
-getAll: (): TRANSACTION[] => {
-  try {
+  getAll: (): TRANSACTION[] => {
+    try {
       const data = localStorage.getItem(import.meta.env.VITE_STORAGE_KEY);
-      
-    if (!data) return [];
-    
-    const parsed = JSON.parse(data);
-        if (Array.isArray(parsed)) {
-      return parsed as TRANSACTION[];
+
+      if (!data) return [];
+
+      const parsed = JSON.parse(data);
+      if (Array.isArray(parsed)) {
+        return parsed as TRANSACTION[];
+      }
+
+      return [];
+    } catch (error) {
+      console.error("Error reading Transactions", error);
+      return [];
     }
-    
-    return [];
-  } catch (error) {
-    console.error("Error reading Transactions", error);
-    return [];
-  }
-},
+  },
 
   getById: (id: string): TRANSACTION | null => {
     const transactions = TransactionStorage.getAll();
@@ -28,6 +28,12 @@ getAll: (): TRANSACTION[] => {
       transactions.unshift(transaction);
       const data = JSON.stringify(transactions);
       localStorage.setItem(import.meta.env.VITE_STORAGE_KEY, data);
+      
+      window.dispatchEvent(new Event('transactionUpdated'));
+    
+    setTimeout(() => {
+      window.dispatchEvent(new Event('transactionUpdated'));
+    }, 100);
       return true;
     } catch (error) {
       console.error("Error saving transaction", error);
@@ -45,6 +51,8 @@ getAll: (): TRANSACTION[] => {
       const data = JSON.stringify(transactions);
 
       localStorage.setItem(import.meta.env.VITE_STORAGE_KEY, data);
+      window.dispatchEvent(new Event("transactionUpdated"));
+
       return true;
     } catch (error) {
       console.error("Error updating transaction", error);
@@ -58,6 +66,8 @@ getAll: (): TRANSACTION[] => {
       const filtered = transactions.filter((t) => t.id !== id);
       const data = JSON.stringify(filtered);
       localStorage.setItem(import.meta.env.VITE_STORAGE_KEY, data);
+      window.dispatchEvent(new Event("transactionUpdated"));
+
       return true;
     } catch (error) {
       console.error("Error deleting Transaction", error);
@@ -67,6 +77,7 @@ getAll: (): TRANSACTION[] => {
 
   clear: (): void => {
     localStorage.removeItem(import.meta.env.VITE_STORAGE_KEY);
+    window.dispatchEvent(new Event("transactionUpdated"));
   },
 
   getByStatus: (status: TRANSACTIONSTATUS): TRANSACTION[] => {

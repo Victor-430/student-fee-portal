@@ -23,8 +23,8 @@ export const PaymentForm = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [transactionId, setTransactionId] = useState<string>("");
 
-  const [studentName, setStudentName] = useState("");
-  const [studentId, setStudentId] = useState("");
+  const [studentName, setStudentName] = useState("Jane");
+  const [studentId, setStudentId] = useState("JN25ABD");
   const [cardNumber, setCardNumber] = useState("");
   const [cardExpiry, setCardExpiry] = useState("");
   const [cardCvv, setCardCvv] = useState("");
