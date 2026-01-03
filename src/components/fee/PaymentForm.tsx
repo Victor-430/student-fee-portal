@@ -1,14 +1,13 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useFee } from "@/hooks/useFee";
-import { TransactionStorage } from "@/utils/transactionStorage"; 
-import { 
-  generateTransactionId, 
+import { TransactionStorage } from "@/utils/transactionStorage";
+import {
+  generateTransactionId,
   generateReferenceNumber,
-  formatCurrency 
+  formatCurrency,
 } from "@/utils/transactionHelpers";
 
 import { CreditCard, Building, CheckCircle } from "lucide-react";
@@ -17,8 +16,10 @@ import { toast } from "sonner";
 export const PaymentForm = () => {
   const navigate = useNavigate();
   const { selectedFee, setSelectedFee } = useFee();
-  
-  const [paymentMethod, setPaymentMethod] = useState<"Card" | "Bank Transfer">("Card");
+
+  const [paymentMethod, setPaymentMethod] = useState<"Card" | "Bank Transfer">(
+    "Card"
+  );
   const [isProcessing, setIsProcessing] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [transactionId, setTransactionId] = useState<string>("");
@@ -44,7 +45,7 @@ export const PaymentForm = () => {
       toast.error("No fees selected");
       return false;
     }
-    
+
     if (paymentMethod === "Card") {
       if (cardNumber.length !== 16) {
         toast.warning("Please enter a valid 16-digit card number");
@@ -59,7 +60,7 @@ export const PaymentForm = () => {
         return false;
       }
     }
-    
+
     return true;
   };
 
@@ -69,19 +70,19 @@ export const PaymentForm = () => {
     setIsProcessing(true);
 
     // Simulate payment processing (2 seconds)
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     const transaction: TRANSACTION = {
       id: generateTransactionId(),
       date: new Date().toISOString(),
       fees: selectedFee,
       totalAmount,
-      status: "Completed", 
+      status: "Completed",
       paymentMethod,
       referenceNumber: generateReferenceNumber(),
       studentName,
       studentId,
-      session: "2024/2025"
+      session: "2024/2025",
     };
 
     const saved = TransactionStorage.save(transaction);
@@ -89,7 +90,7 @@ export const PaymentForm = () => {
     if (saved) {
       setTransactionId(transaction.id);
       setShowSuccess(true);
-      
+
       setSelectedFee([]);
     } else {
       toast.error("Failed to save transaction. Please try again.");
@@ -120,13 +121,19 @@ export const PaymentForm = () => {
         <div className="text-center max-w-md">
           <div className="mb-6">
             <CheckCircle className="w-20 h-20 text-green-600 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">Payment Successful!</h2>
-            <p className="text-gray-600">Your payment has been processed successfully</p>
+            <h2 className="text-2xl font-bold text-gray-800 mb-2">
+              Payment Successful!
+            </h2>
+            <p className="text-gray-600">
+              Your payment has been processed successfully
+            </p>
           </div>
 
           <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
             <p className="text-sm text-gray-600 mb-1">Transaction ID</p>
-            <p className="font-mono font-bold text-green-800">{transactionId}</p>
+            <p className="font-mono font-bold text-green-800">
+              {transactionId}
+            </p>
           </div>
 
           <div className="space-y-3">
@@ -159,21 +166,23 @@ export const PaymentForm = () => {
     return (
       <div className="p-6 text-center">
         <p className="text-gray-500 mb-4">No fees selected for payment</p>
-        <Button onClick={() => navigate("/fees")}>
-          Go to Fee Selection
-        </Button>
+        <Button onClick={() => navigate("/fees")}>Go to Fee Selection</Button>
       </div>
     );
   }
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Complete Payment</h2>
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">
+        Complete Payment
+      </h2>
 
       <div className="grid md:grid-cols-3 gap-6">
         <div className="md:col-span-2 space-y-6">
           <div className="bg-white border rounded-lg p-6">
-            <h3 className="font-semibold text-gray-800 mb-4">Student Information</h3>
+            <h3 className="font-semibold text-gray-800 mb-4">
+              Student Information
+            </h3>
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -210,9 +219,11 @@ export const PaymentForm = () => {
                 disabled={isProcessing}
                 className={`
                   p-4 border-2 rounded-lg flex flex-col items-center gap-2 transition-all
-                  ${paymentMethod === "Card" 
-                    ? "border-blue-600 bg-blue-50" 
-                    : "border-gray-200 hover:border-gray-300"}
+                  ${
+                    paymentMethod === "Card"
+                      ? "border-blue-600 bg-blue-50"
+                      : "border-gray-200 hover:border-gray-300"
+                  }
                 `}
               >
                 <CreditCard size={24} />
@@ -223,9 +234,11 @@ export const PaymentForm = () => {
                 disabled={isProcessing}
                 className={`
                   p-4 border-2 rounded-lg flex flex-col items-center gap-2 transition-all
-                  ${paymentMethod === "Bank Transfer" 
-                    ? "border-blue-600 bg-blue-50" 
-                    : "border-gray-200 hover:border-gray-300"}
+                  ${
+                    paymentMethod === "Bank Transfer"
+                      ? "border-blue-600 bg-blue-50"
+                      : "border-gray-200 hover:border-gray-300"
+                  }
                 `}
               >
                 <Building size={24} />
@@ -244,7 +257,9 @@ export const PaymentForm = () => {
                     placeholder="1234 5678 9012 3456"
                     maxLength={16}
                     value={cardNumber}
-                    onChange={(e) => setCardNumber(e.target.value.replace(/\D/g, ''))}
+                    onChange={(e) =>
+                      setCardNumber(e.target.value.replace(/\D/g, ""))
+                    }
                     disabled={isProcessing}
                   />
                 </div>
@@ -259,9 +274,9 @@ export const PaymentForm = () => {
                       maxLength={5}
                       value={cardExpiry}
                       onChange={(e) => {
-                        let value = e.target.value.replace(/\D/g, '');
+                        let value = e.target.value.replace(/\D/g, "");
                         if (value.length >= 2) {
-                          value = value.slice(0, 2) + '/' + value.slice(2, 4);
+                          value = value.slice(0, 2) + "/" + value.slice(2, 4);
                         }
                         setCardExpiry(value);
                       }}
@@ -277,7 +292,9 @@ export const PaymentForm = () => {
                       placeholder="123"
                       maxLength={3}
                       value={cardCvv}
-                      onChange={(e) => setCardCvv(e.target.value.replace(/\D/g, ''))}
+                      onChange={(e) =>
+                        setCardCvv(e.target.value.replace(/\D/g, ""))
+                      }
                       disabled={isProcessing}
                     />
                   </div>
@@ -289,12 +306,13 @@ export const PaymentForm = () => {
             {paymentMethod === "Bank Transfer" && (
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                 <p className="text-sm text-blue-800 mb-2">
-                  <strong>Bank Account Details:
+                  <strong>
+                    Bank Account Details:
                     <span className="bg-portal-lightYellow block mt-1 p-2 rounded">
-                      This is a test account number, do not transfer money into the account
-                      
-                      </span>
-                      </strong>
+                      This is a test account number, do not transfer money into
+                      the account
+                    </span>
+                  </strong>
                 </p>
                 <ul className="text-sm text-blue-800 space-y-1">
                   <li>Bank: Polaris Bank</li>
@@ -305,14 +323,28 @@ export const PaymentForm = () => {
               </div>
             )}
           </div>
-
-          <Button
-            className="w-full bg-green-600 hover:bg-green-700 py-6 text-lg font-semibold"
-            onClick={handlePayment}
-            disabled={isProcessing}
-          >
-            {isProcessing ? "Processing Payment..." : `Pay ${formatCurrency(totalAmount)}`}
-          </Button>
+          {/* if payment method is bank transfer show confirm payment */}
+          {paymentMethod === "Bank Transfer" ? (
+            <Button
+              className="w-full bg-green-600 hover:bg-green-700 py-6 text-lg font-semibold"
+              onClick={handlePayment}
+              disabled={isProcessing}
+            >
+              {isProcessing
+                ? "Confirming Payment..."
+                : `Confirm Payment ${formatCurrency(totalAmount)}`}
+            </Button>
+          ) : (
+            <Button
+              className="w-full bg-green-600 hover:bg-green-700 py-6 text-lg font-semibold"
+              onClick={handlePayment}
+              disabled={isProcessing}
+            >
+              {isProcessing
+                ? "Processing Payment..."
+                : `Pay ${formatCurrency(totalAmount)}`}
+            </Button>
+          )}
         </div>
 
         {/* Order Summary */}
@@ -323,7 +355,9 @@ export const PaymentForm = () => {
               {selectedFee.map((fee, index) => (
                 <div key={index} className="flex justify-between text-sm">
                   <span className="text-gray-600">{fee.type}</span>
-                  <span className="font-medium">{formatCurrency(fee.amount)}</span>
+                  <span className="font-medium">
+                    {formatCurrency(fee.amount)}
+                  </span>
                 </div>
               ))}
             </div>
