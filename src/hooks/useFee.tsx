@@ -63,8 +63,8 @@ export const FeeProvider = ({ children }: { children: ReactNode }) => {
     const allTransaction = TransactionStorage.getAll();
 
     const totalPaidAmount = allTransaction
-      .filter((t) => t.status === "Completed")
-      .reduce((sum, t) => sum + t.totalAmount, 0);
+      .filter((t:TRANSACTION) => t.status === "Completed")
+      .reduce((sum:number, t:TRANSACTION) => sum + t.totalAmount, 0);
 
     setAmountPaid(totalPaidAmount);
     const balance = totalFee - totalPaidAmount;
