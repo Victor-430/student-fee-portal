@@ -11,13 +11,13 @@ import {
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { ChevronLeft, Download, Search, Filter, Eye } from "lucide-react";
-import { TransactionStorage } from "@/utils/transactionStorage";
+import { TransactionStorage } from "@/transactionStorage";
 import {
   formatDate,
   formatCurrency,
   getStatusColor,
   getStatusIcon,
-} from "@/utils/transactionHelpers";
+} from "@/transactionHelpers";
 import { useFee } from "@/hooks/useFee";
 
 export const TransactionHistory = () => {

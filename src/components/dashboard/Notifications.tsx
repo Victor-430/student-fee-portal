@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Bell, AlertTriangle, Clock } from "lucide-react";
 import { useFee } from "@/hooks/useFee";
-import { formatCurrency } from "@/utils/transactionHelpers";
+import { formatCurrency } from "@/transactionHelpers";
 
 export const Notifications = () => {
   const { amountPaid, paymentStatus, totalFee, feeBalance } = useFee();

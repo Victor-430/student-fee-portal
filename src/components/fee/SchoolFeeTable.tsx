@@ -11,7 +11,7 @@ import {
 import { Checkbox } from "../ui/checkbox";
 import { useFee } from "@/hooks/useFee";
 import { AlertCircle } from "lucide-react";
-import { TransactionStorage } from "@/utils/transactionStorage";
+import { TransactionStorage } from "@/transactionStorage";
 
 export const SchoolFeeTable = ({ FirstPaymentPaid }: SCHOOLFEETABLEPROP) => {
   const {

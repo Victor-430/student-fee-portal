@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { BookOpenCheck } from "lucide-react";
 import { useFee } from "@/hooks/useFee";
-import { formatCurrency } from "@/utils/transactionHelpers";
+import { formatCurrency } from "@/transactionHelpers";
 
 export const PaymentStatus = () => {
   const { totalFee, amountPaid, paymentStatus, feeBalance } = useFee();
